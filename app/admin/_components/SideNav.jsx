@@ -31,7 +31,7 @@ function SideNav() {
             <UserButton/>
         </div>
         {menuList.map((menu,index)=>(
-            <div className='p-2 py-4 rounded-lg bg-primary mb-4 flex items-center justify-center tooltip tooltip-right' data-tip={menu.name}>
+            <div className='p-2 py-4 rounded-lg bg-primary mb-4 flex items-center justify-center hover:scale-[0.9] duration-300 tooltip tooltip-right ' data-tip={menu.name}>
                 <menu.icon className='text-white text-center'/>
             </div>
         ))}

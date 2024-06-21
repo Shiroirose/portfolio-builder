@@ -13,6 +13,7 @@
   "dependencies": {
     "@clerk/nextjs": "^5.1.5",
     "@neondatabase/serverless": "^0.9.3",
+    "dotenv": "^16.4.5",
     "drizzle-orm": "^0.31.2",
     "lucide-react": "^0.395.0",
     "next": "14.2.4",
