@@ -22,7 +22,7 @@ function Admin() {
         // const email = user?.primaryEmailAddress?.emailAddress
 
         const result= await db.select().from(userInfo).where(eq(userInfo.email,user?.primaryEmailAddress?.emailAddress))
-        console.log('Result:',result);
+        // console.log('Result:',result);
         if(result?.length==0)
             {
                 router.replace('/create')

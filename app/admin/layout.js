@@ -3,6 +3,7 @@
 
 import React from 'react'
 import SideNav from './_components/SideNav'
+import Provider from './Provider'
 
 function Adminlayout({children}) {
   return (
@@ -12,7 +13,9 @@ function Adminlayout({children}) {
         </div>
 
         <div className='ml-24'>
-        {children}
+          <Provider>
+            {children}
+          </Provider>
         </div>
     </div>
   )
