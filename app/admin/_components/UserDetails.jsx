@@ -12,7 +12,7 @@ import {storage} from '../../../utils/firebaseConfig';
 import { TwicPicture } from '@twicpics/components/react';
 
 
-const BASE_URL='https://firebasestorage.googleapis.com/v0/b/portfolio-builder-1510.appspot.com/o/'
+// const BASE_URL='https://firebasestorage.googleapis.com/v0/b/portfolio-builder-1510.appspot.com/o/'
 function UserDetails() {
 
   const {user}=useUser();
