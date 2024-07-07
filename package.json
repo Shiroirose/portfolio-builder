@@ -14,6 +14,7 @@
     "@clerk/nextjs": "^5.1.6",
     "@neondatabase/serverless": "^0.9.3",
     "@twicpics/components": "^0.29.2",
+    "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.31.2",
     "firebase": "^10.12.2",
@@ -21,7 +22,8 @@
     "next": "14.2.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "sweetalert2": "^11.12.2"
   },
   "devDependencies": {
     "@types/react": "18.3.3",
