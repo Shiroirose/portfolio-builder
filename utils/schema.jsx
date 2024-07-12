@@ -24,7 +24,9 @@ export const project=pgTable('project',{
     category:varchar('category'),
     active:boolean('active').default(true),
     emailRef:varchar('emailRef'),
-    userRef:integer('userRef').references(()=>userInfo.id) //connects the user though id from this table to the userinfo table
+    userRef:integer('userRef').references(()=>userInfo.id), //connects the user though id from this table to the userinfo table
+    showGraph:boolean('showGraph').default(true),
+    order:integer('order').default(0)
 
 })
 

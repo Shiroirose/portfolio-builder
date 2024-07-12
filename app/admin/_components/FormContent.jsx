@@ -4,7 +4,7 @@ import UserDetails from './UserDetails'
 import AddProject from './AddProject'
 import { db } from '../../../utils'
 import { project } from '../../../utils/schema'
-import { desc, eq } from 'drizzle-orm'
+import { asc, eq } from 'drizzle-orm'
 import { useUser } from '@clerk/nextjs'
 import ProjectListEdit from './ProjectListEdit'
 
@@ -22,7 +22,7 @@ function FormContent() {
   const GetProjectList=async()=>{
     const result=await db.select().from(project)
     .where(eq(project.emailRef,user?.primaryEmailAddress.emailAddress))
-    .orderBy(desc(project.id)) //displaying projects in desccending order
+    .orderBy(asc(project.order)) //displaying projects in desccending order
 
     console.log(result);
     setProjectList(result)
@@ -30,7 +30,7 @@ function FormContent() {
 
 
   return (
-    <div className='py-10 px-6'>
+    <div className='py-10 px-6 overflow-auto'>
       <h2 className=' text-2xl font-semibold '>Design Your Portfolio !</h2>
       <UserDetails/>
       <hr className='my-5'></hr>

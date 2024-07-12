@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TwicPicture } from "@twicpics/components/react";
-import { Layers3, Link2, LoaderCircle, Sparkle, Sparkles, Trash2 } from "lucide-react";
+import { Book, Briefcase, Brush, Code, Cpu, GripVertical, Layers2, Layers3, LineChart, Link2, LoaderCircle, PenTool, ShoppingCart, Smartphone, Sparkle, Sparkles, Trash2, Users } from "lucide-react";
 import { db } from "../../../utils";
 import { project } from "../../../utils/schema";
 import { eq } from "drizzle-orm";
@@ -9,6 +9,9 @@ import { uploadBytes, ref } from "firebase/storage";
 import { storage } from "../../../utils/firebaseConfig";
 import Swal from "sweetalert2";
 import { chatSession } from "../../../utils/AIGemini";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
+
 
 function ProjectListEdit({ projectList, refreshData }) {
   const [selected, setSelected] = useState();
@@ -17,8 +20,14 @@ function ProjectListEdit({ projectList, refreshData }) {
   const [aiInput, setAiInput] = useState();
   const [aiOutput, setAiOutput] = useState([]);
   const [showAiDesc, setShowAiDesc] = useState(false);
+  const [projectListData, setProjectListData] = useState([]);
 
   let timeoutId;
+
+  useEffect(()=>{
+    projectList&&setProjectListData(projectList);
+  },[projectList])
+
   const onInputchange = (value, fieldName, projectId) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(async () => {
@@ -103,7 +112,7 @@ function ProjectListEdit({ projectList, refreshData }) {
     });
   };
 
-  const submitAI = async (event, projectId) => {
+  const submitAI = async (event) => {
     setLoading(true);
     event.preventDefault();
     const InputPrompt = aiInput;
@@ -145,179 +154,255 @@ function ProjectListEdit({ projectList, refreshData }) {
     setShowAiDesc(false);
   };
 
+  const handleOnDragEnd=async(result)=>{
+    if (!result.destination) {
+      return;
+    }
+    // console.log(result);
+    const items = Array.from(projectListData);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setProjectListData(items);
+
+    try {
+      // Update the order of all items in the database
+      const updatePromises = items.map((item, index) => {
+        return db.update(project)
+          .set({ order: index })
+          .where(eq(project.id, item.id));
+      });
+  
+      await Promise.all(updatePromises);
+      refreshData();
+      toast.success("Order updated :)", {
+        position: "top-right",
+      });
+      } catch (error) {
+        console.error("Order update failed", error);
+        toast.error("Order update failed :(", {
+          position: "top-right",
+        });
+      }
+    }
+
+  
+
   return (
     <div className="mt-8">
-      {projectList.map((project, index) => (
-        <div className="my-5 bg-gray-800 p-3 rounded-lg">
-          <div className="flex items-center gap-2 ">
-            <label
-              htmlFor={"project-file-input" + index}
-              className="cursor-pointer"
-            >
-              <TwicPicture
-                src={`${project.logo}`}
-                className="h-[40px] w-[40px] rounded-full"
-              ></TwicPicture>
-            </label>
-            <input
-              type="file"
-              id={"project-file-input" + index}
-              style={{ display: "none" }}
-              onChange={(event) => onFileChange(event, project.id)}
-              accept="image/png , image/gif , image/jpeg"
-            />
-            <input
-              type="text"
-              placeholder="Project Name"
-              defaultValue={project.name}
-              className="input input-bordered w-full "
-              onChange={(event) =>
-                onInputchange(event.target.value, "name", project.id)
-              }
-            />
-          </div>
-          <div>
-            <textarea
-              placeholder="Descrbe your project"
-              className="textarea textarea-bordered w-full mt-3 text-sm"
-              defaultValue={project.desc}
-              onChange={(event) =>
-                onInputchange(event.target.value, "desc", project.id)
-              }
-            />
-          </div>
-
-          <div>
-            <div className="flex gap-2 mt-4 items-center justify-between">
-              <div className="flex gap-2 mt-4">
-                <Link2
-                  className={` h-11 w-11 p-3 rounded-md hover:bg-gray-700
-            ${selected == "url" && `bg-gray-700`}`}
-                  onClick={() => setSelected("url" + index)}
-                />
-                <Layers3
-                  className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700 text-green-400
-            ${selected == "category" && `bg-gray-700`}`}
-                  onClick={() => setSelected("category" + index)}
-                />
-                <button
-                  className="btn btn-ghost"
-                  onClick={() => setOpenDialog(true)}
-                >
-                  AI
-                  <Sparkles className="text-yellow-300" />
-                </button>
-              </div>
-
-              <div className="flex gap-3 items-center">
-                <button
-                  className="btn btn-error btn-sm"
-                  onClick={() => onProjectDelete(project.id)}
-                >
-                  <Trash2 />
-                </button>
-                <input
-                  type="checkbox"
-                  className="toggle toggle-primary"
-                  defaultChecked={project.active}
-                  onChange={(event) =>
-                    onInputchange(event.target.checked, "active", project.id)
-                  }
-                />
-              </div>
-            </div>
-
-            {selected == "url" + index ? (
-              <div className="mt-2">
-                <label className="input input-bordered flex items-center gap-2">
-                  <Link2 />
-                  <input
-                    type="url"
-                    className="grow"
-                    placeholder="Link to Project"
-                    key={1}
-                    defaultValue={project?.url}
-                    onChange={(event) =>
-                      onInputchange(event.target.value, "url", project.id)
-                    }
-                  />
-                </label>
-              </div>
-            ) : selected == "category" + index ? (
-              <div className="mt-2">
-                <label className="input input-bordered flex items-center gap-2">
-                  <Layers3 />
-                  <input
-                    type="text"
-                    className="grow"
-                    placeholder="Category under which your project falls"
-                    key={2}
-                    defaultValue={project?.category ? project?.category : ""}
-                    // checked={project.active}
-                    onChange={(event) =>
-                      onInputchange(event.target.value, "category", project.id)
-                    }
-                  />
-                </label>
-              </div>
-            ) : null}
-
-            {openDialog && (
-              <dialog className="modal  bg-black bg-opacity-50" open>
-                <div className="modal-box bg-gray-800">
-                  <button
-                    className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 "
-                    onClick={handleCloseModal}
-                  >
-                    ✕
-                  </button>
-                  <textarea
-                    className="textarea textarea-bordered w-full"
-                    placeholder="Write a bit about your project (eg:tech stack, what it's about)"
-                    onChange={(event) => setAiInput(event.target.value)}
-                  ></textarea>
-                  <div>
-                    <button
-                      className="btn btn-xs btn-primary sm:btn-sm md:btn-md lg:btn-lg text-center text-white my-4 w-full "
-                      onClick={(event) => submitAI(event, project.id)}
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <>
-                          <LoaderCircle className="animate-spin" />
-                          Generating from AI
-                        </>
-                      ) : (
-                        "Generate"
-                      )}
-                      <Sparkles className="text-yellow-300"/>
-                    </button>
-                  </div>
-                  {/* {showAiDesc && (
-                    <textarea className="textarea textarea-bordered w-full mt-3" value={aiOutput} readOnly />
-                  )} */}
-                  {showAiDesc && (
-                    <textarea
-                      className="textarea textarea-bordered w-full mt-3"
-                      value={aiOutput.map(
-                        (output, idx) =>
-                          `${output.field.toUpperCase()}:\n${
-                            Array.isArray(output.value)
-                              ? output.value.join("\n")
-                              : output.value
-                          }\n\n`
-                      )}
-                      readOnly
-                    />
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided)=>(
+            <div ref={provided.innerRef} {...provided.droppableProps} >
+              {projectListData.map((project, index) => (
+                <Draggable key={project.id} draggableId={project.id.toString()} index={index}>
+                  {(provided)=>(
+                    <div 
+                      ref={provided.innerRef}
+                      {...provided.draggableProps} 
+                      className="my-5 bg-gray-800 p-3 rounded-lg"
+                     >
+                      
+                      <div className="flex flex-col w-full">
+                        <div className="flex items-center gap-2 ">
+                          <label
+                            htmlFor={"project-file-input" + index}
+                            className="cursor-pointer"
+                          >
+                            <TwicPicture
+                              src={`${project.logo}`}
+                              className="h-[40px] w-[40px] rounded-full"
+                            ></TwicPicture>
+                          </label>
+                          <input
+                            type="file"
+                            id={"project-file-input" + index}
+                            style={{ display: "none" }}
+                            onChange={(event) => onFileChange(event, project.id)}
+                            accept="image/png , image/gif , image/jpeg"
+                          />
+                          <input
+                            type="text"
+                            placeholder="Project Name"
+                            defaultValue={project.name}
+                            className="input input-bordered w-full "
+                            onChange={(event) =>
+                              onInputchange(event.target.value, "name", project.id)
+                            }
+                          />
+                        </div>
+                        <div>
+                          <textarea
+                            placeholder="Describe your project"
+                            className="textarea textarea-bordered w-full mt-3 text-sm"
+                            defaultValue={project.desc}
+                            onChange={(event) =>
+                              onInputchange(event.target.value, "desc", project.id)
+                            }
+                          />
+                        </div>
+            
+                        <div>
+                          <div className="flex gap-2 mt-4 items-center justify-between">
+                            <div className="flex gap-2 mt-4 items-center">
+                            <div {...provided.dragHandleProps}>
+                              <GripVertical />
+                            </div>
+                              <Link2
+                                className={` h-11 w-11 p-3 rounded-md hover:bg-gray-700
+                          ${selected == "url" && `bg-gray-700`}`}
+                                onClick={() => setSelected("url" + index)}
+                              />
+                              <Layers2
+                                className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700 text-green-400
+                          ${selected == "category" && `bg-gray-700`}`}
+                                onClick={() => setSelected("category" + index)}
+                              />
+                              <LineChart
+                                className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700 text-black
+                          ${selected == "linechart" && `bg-gray-700`}`}
+                                onClick={() => setSelected("linechart" + index)}
+                              />
+                              <button
+                                className="btn btn-ghost"
+                                onClick={() => setOpenDialog(true)}
+                              >
+                                AI
+                                <Sparkles className="text-yellow-300" />
+                              </button>
+                            </div>
+            
+                            <div className="flex gap-3 items-center">
+                              <button
+                                className="btn btn-error btn-sm"
+                                onClick={() => onProjectDelete(project.id)}
+                              >
+                                <Trash2 />
+                              </button>
+                              <input
+                                type="checkbox"
+                                className="toggle toggle-primary"
+                                defaultChecked={project.active}
+                                onChange={(event) =>
+                                  onInputchange(event.target.checked, "active", project.id)
+                                }
+                              />
+                            </div>
+                          </div>
+            
+                          {selected == "url" + index ? (
+                            <div className="mt-2">
+                              <label className="input input-bordered flex items-center gap-2">
+                                <Link2 />
+                                <input
+                                  type="url"
+                                  className="grow"
+                                  placeholder="Link to Project"
+                                  key={1}
+                                  defaultValue={project?.url}
+                                  onChange={(event) =>
+                                    onInputchange(event.target.value, "url", project.id)
+                                  }
+                                />
+                              </label>
+                            </div>
+                          ) : selected == "category" + index ? (
+                            <div className="mt-2">
+                                <select className="select select-bordered rounded-lg w-full " 
+                                    onChange={(event) =>
+                                    onInputchange(event.target.value, "category", project.id)}
+                                    key={2}
+                                    defaultValue={project?.category ? project?.category : ""} >
+                                  <option disabled selected>Choose category of project </option>
+                                  <option> <Book className="mr-2" /> Education </option>
+                                  <option> <Cpu className="mr-2" /> Technology </option>
+                                  <option> <Smartphone className="mr-2" /> Mobile App </option>
+                                  <option> <Code className="mr-2" /> Software </option>
+                                  <option> <Briefcase className="mr-2" /> Services </option>
+                                  <option> <PenTool className="mr-2" /> Design </option>
+                                  <option> <Brush className="mr-2" /> Art </option>
+                                  <option> <ShoppingCart className="mr-2" /> E-commerce </option>
+                                  <option> <Users className="mr-2" /> Social </option>
+                                  <option> <Layers3 className="mr-2" /> Miscellaneous </option>
+                                </select>
+                            </div>
+                          ) : selected=='linechart'+index? (
+                          <div className="mt-2 flex items-center justify-between border p-4 rounded-lg">
+                            <label>Visitors' Graph</label>
+                            <input
+                              type="checkbox"
+                              className="toggle toggle-secondary"
+                              defaultChecked={project?.showGraph}
+                              onChange={(event) =>
+                              onInputchange(event.target.checked, "showGraph", project.id)
+                              }
+                            />
+                          </div>) :null}
+            
+                          {openDialog && (
+                            <dialog className="modal  bg-black bg-opacity-50" open>
+                              <div className="modal-box bg-gray-800">
+                                <button
+                                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 "
+                                  onClick={handleCloseModal}
+                                >
+                                  ✕
+                                </button>
+                                <textarea
+                                  className="textarea textarea-bordered w-full"
+                                  placeholder="Write a bit about your project (eg:tech stack, what it's about)"
+                                  onChange={(event) => setAiInput(event.target.value)}
+                                ></textarea>
+                                <div>
+                                  <button
+                                    className="btn btn-xs btn-primary sm:btn-sm md:btn-md lg:btn-lg text-center text-white my-4 w-full "
+                                    onClick={(event) => submitAI(event, project.id)}
+                                    disabled={loading}
+                                  >
+                                    {loading ? (
+                                      <>
+                                        <LoaderCircle className="animate-spin" />
+                                        Generating from AI
+                                      </>
+                                    ) : (
+                                      "Generate"
+                                    )}
+                                    <Sparkles className="text-yellow-300"/>
+                                  </button>
+                                </div>
+                                {/* {showAiDesc && (
+                                  <textarea className="textarea textarea-bordered w-full mt-3" value={aiOutput} readOnly />
+                                )} */}
+                                {showAiDesc && (
+                                  <textarea
+                                    className="textarea textarea-bordered w-full mt-3"
+                                    value={aiOutput.map(
+                                      (output, idx) =>
+                                        `${output.field.toUpperCase()}:\n${
+                                          Array.isArray(output.value)
+                                            ? output.value.join("\n")
+                                            : output.value
+                                        }\n\n`
+                                    )}
+                                    readOnly
+                                  />
+                                )}
+                              </div>
+                            </dialog>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   )}
-                </div>
-              </dialog>
-            )}
-          </div>
-        </div>
-      ))}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 }
 
-export default ProjectListEdit;
+export default ProjectListEdit;  
