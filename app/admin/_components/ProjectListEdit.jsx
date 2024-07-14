@@ -246,10 +246,10 @@ function ProjectListEdit({ projectList, refreshData }) {
                           <div className="flex gap-2 mt-4 items-center justify-between">
                             <div className="flex gap-2 mt-4 items-center">
                             <div {...provided.dragHandleProps}>
-                              <GripVertical />
+                              <GripVertical className="text-blue-50" />
                             </div>
                               <Link2
-                                className={` h-11 w-11 p-3 rounded-md hover:bg-gray-700
+                                className={` h-11 w-11 p-3 rounded-md hover:bg-gray-700 text-primary
                           ${selected == "url" && `bg-gray-700`}`}
                                 onClick={() => setSelected("url" + index)}
                               />
@@ -259,7 +259,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                                 onClick={() => setSelected("category" + index)}
                               />
                               <LineChart
-                                className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700 text-black
+                                className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700 text-yellow-100
                           ${selected == "linechart" && `bg-gray-700`}`}
                                 onClick={() => setSelected("linechart" + index)}
                               />
@@ -331,7 +331,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                             <label>Visitors' Graph</label>
                             <input
                               type="checkbox"
-                              className="toggle toggle-secondary"
+                              className="toggle toggle-secondary "
                               defaultChecked={project?.showGraph}
                               onChange={(event) =>
                               onInputchange(event.target.checked, "showGraph", project.id)

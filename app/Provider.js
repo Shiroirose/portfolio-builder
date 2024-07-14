@@ -2,10 +2,10 @@
 
 import { useUser } from '@clerk/nextjs'
 import React, { useEffect, useState } from 'react'
-import { userInfo } from '../../utils/schema';
+import { userInfo } from '../utils/schema';
 import { eq } from 'drizzle-orm';
-import { db } from '../../utils';
-import {UserDetailContext} from '../_context/UserDetailContext'
+import { db } from '../utils';
+import {UserDetailContext} from '../app/_context/UserDetailContext'
 
 function Provider({children}) {
 
@@ -14,18 +14,21 @@ function Provider({children}) {
 
 
     useEffect(()=>{
-        user && GetUserDetails();
+        if(user){
+          GetUserDetails();
+        }
     },[user])
 
     const GetUserDetails = async()=>{
         const result=await db.select().from(userInfo)
         .where(eq(userInfo.email,user?.primaryEmailAddress?.emailAddress))
-        setUserDetail(result[0]);
-        // console.log(result[0]);
+        setUserDetail(result[0]);  
     }
-
+  
   return (
-    <div>{children}</div>
+    <UserDetailContext.Provider value={{userDetail,setUserDetail}}>
+        <div>{children}</div>
+    </UserDetailContext.Provider>
   )
 }
 

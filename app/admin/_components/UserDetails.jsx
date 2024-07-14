@@ -27,7 +27,7 @@ function UserDetails() {
 
   useEffect(() => {
     if (userDetail) {
-      console.log('User Detail:', userDetail);
+      // console.log('User Detail:', userDetail);
       setProfileImage(userDetail?.profileImage)
     }
 

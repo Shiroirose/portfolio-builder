@@ -24,13 +24,13 @@ function FormContent() {
     .where(eq(project.emailRef,user?.primaryEmailAddress.emailAddress))
     .orderBy(asc(project.order)) //displaying projects in desccending order
 
-    console.log(result);
+    // console.log(result);
     setProjectList(result)
   }
 
 
   return (
-    <div className='py-10 px-6 overflow-auto'>
+    <div className='py-10 px-6 overflow-auto '>
       <h2 className=' text-2xl font-semibold '>Design Your Portfolio !</h2>
       <UserDetails/>
       <hr className='my-5'></hr>
