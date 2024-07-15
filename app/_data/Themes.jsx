@@ -168,9 +168,9 @@ export default [
       "theme": "forest",
     },
     {
-      "color-scheme": "light",
+      "color-scheme": "fbffbf",
       "primary": "#10b6e8",
-      "primary-content": "#ffffff",
+      "primary-content": "#fbffbf",
       "secondary": "#c9067b",
       "accent": "#ecf54e",
       "neutral": "#1f1f1d",

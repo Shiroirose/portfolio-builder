@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TwicPicture } from "@twicpics/components/react";
 import { Book, Briefcase, Brush, Code, Cpu, GripVertical, Layers2, Layers3, LineChart, Link2, LoaderCircle, PenTool, ShoppingCart, Smartphone, Sparkle, Sparkles, Trash2, Users } from "lucide-react";
 import { db } from "../../../utils";
@@ -10,6 +10,7 @@ import { storage } from "../../../utils/firebaseConfig";
 import Swal from "sweetalert2";
 import { chatSession } from "../../../utils/AIGemini";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { PreviewUpdateContext } from "../../_context/PreviewUpdateContext";
 
 
 
@@ -21,6 +22,8 @@ function ProjectListEdit({ projectList, refreshData }) {
   const [aiOutput, setAiOutput] = useState([]);
   const [showAiDesc, setShowAiDesc] = useState(false);
   const [projectListData, setProjectListData] = useState([]);
+  const {updatePreview,setUpdatePreview}=useContext(PreviewUpdateContext);
+
 
   let timeoutId;
 
@@ -41,6 +44,7 @@ function ProjectListEdit({ projectList, refreshData }) {
         toast.success("Reload to see saved changes!", {
           position: "top-right",
         });
+        setUpdatePreview(updatePreview+1);
       } else if (!result) {
         toast.error("Unsuccessful attempt!", {
           position: "top-right",
@@ -72,6 +76,7 @@ function ProjectListEdit({ projectList, refreshData }) {
         toast.success("Image Saved!", {
           position: "top-right",
         });
+        setUpdatePreview(updatePreview+1);
       } else {
         toast.error("Unsuccessful attempt!", {
           position: "top-right",
@@ -108,6 +113,7 @@ function ProjectListEdit({ projectList, refreshData }) {
         toast.success("Deleted :)", {
           position: "top-right",
         });
+        setUpdatePreview(updatePreview+1);
       }
     });
   };
@@ -178,6 +184,7 @@ function ProjectListEdit({ projectList, refreshData }) {
       toast.success("Order updated :)", {
         position: "top-right",
       });
+      setUpdatePreview(updatePreview+1);
       } catch (error) {
         console.error("Order update failed", error);
         toast.error("Order update failed :(", {
@@ -321,7 +328,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                                   <option> <Briefcase className="mr-2" /> Services </option>
                                   <option> <PenTool className="mr-2" /> Design </option>
                                   <option> <Brush className="mr-2" /> Art </option>
-                                  <option> <ShoppingCart className="mr-2" /> E-commerce </option>
+                                  <option> <ShoppingCart className="mr-2" /> ECommerce </option>
                                   <option> <Users className="mr-2" /> Social </option>
                                   <option> <Layers3 className="mr-2" /> Miscellaneous </option>
                                 </select>

@@ -3,11 +3,12 @@ import Provider from './Provider'
 
 
 function UserPageLayout({children}) {
+  const MemoizedProvider = React.memo(Provider);
   return (
     <div>
-        <Provider>
+        <MemoizedProvider>
             {children}
-        </Provider>
+        </MemoizedProvider>
     </div>
   )
 }

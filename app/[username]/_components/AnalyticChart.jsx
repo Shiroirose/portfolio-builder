@@ -1,52 +1,8 @@
 import React from "react";
 import {AreaChart, CartesianGrid, Tooltip, XAxis, YAxis, Area, ResponsiveContainer } from 'recharts'
-
+import CustomTooltip from "./CustomTooltip"
 function AnalyticChart({data}) {
 
-    // const data = [
-    //     {
-    //       "name": "Page A",
-    //       "uv": 4000,
-    //       "pv": 2400,
-    //       "amt": 2400
-    //     },
-    //     {
-    //       "name": "Page B",
-    //       "uv": 3000,
-    //       "pv": 1398,
-    //       "amt": 2210
-    //     },
-    //     {
-    //       "name": "Page C",
-    //       "uv": 2000,
-    //       "pv": 9800,
-    //       "amt": 2290
-    //     },
-    //     {
-    //       "name": "Page D",
-    //       "uv": 2780,
-    //       "pv": 3908,
-    //       "amt": 2000
-    //     },
-    //     {
-    //       "name": "Page E",
-    //       "uv": 1890,
-    //       "pv": 4800,
-    //       "amt": 2181
-    //     },
-    //     {
-    //       "name": "Page F",
-    //       "uv": 2390,
-    //       "pv": 3800,
-    //       "amt": 2500
-    //     },
-    //     {
-    //       "name": "Page G",
-    //       "uv": 3490,
-    //       "pv": 4300,
-    //       "amt": 2100
-    //     }
-    //   ]
   return (
     <div>
         <ResponsiveContainer width={'100%'} height={100}>
@@ -60,10 +16,10 @@ function AnalyticChart({data}) {
                     <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
                 </linearGradient>
                 </defs>
-                <XAxis dataKey="Month" style={{fontSize:10}} />
+                <XAxis dataKey="month" style={{fontSize:10}} />
                 <YAxis style={{fontSize:10}}/>
                 {/* <CartesianGrid strokeDasharray="3 3" /> */}
-                <Tooltip />
+                <Tooltip content={<CustomTooltip/>}/>
                 <Area
                 type="monotone"
                 dataKey="totalClick"

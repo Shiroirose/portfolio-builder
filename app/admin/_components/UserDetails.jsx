@@ -10,6 +10,7 @@ import { UserDetailContext } from '../../_context/UserDetailContext';
 import {ref, uploadBytes } from 'firebase/storage';
 import {storage} from '../../../utils/firebaseConfig';
 import { TwicPicture } from '@twicpics/components/react';
+import { PreviewUpdateContext } from '../../_context/PreviewUpdateContext';
 
 
 // const BASE_URL='https://firebasestorage.googleapis.com/v0/b/portfolio-builder-1510.appspot.com/o/'
@@ -21,13 +22,14 @@ function UserDetails() {
   const containerRef=useRef(null);
   const [profileImage,setProfileImage]=useState();
   const {userDetail,setUserDetail}=useContext(UserDetailContext);
-  
+  const {updatePreview,setUpdatePreview}=useContext(PreviewUpdateContext);
+
   let timeoutId;
 
 
   useEffect(() => {
     if (userDetail) {
-      // console.log('User Detail:', userDetail);
+      // console.log('User Detail:', userDetail );
       setProfileImage(userDetail?.profileImage)
     }
 
@@ -56,6 +58,7 @@ function UserDetails() {
         toast.success('Reload to see saved changes!',{
           position:'top-right'
         })
+        setUpdatePreview(updatePreview+1); 
       }
 
       else if(!result){
@@ -97,6 +100,7 @@ function UserDetails() {
         toast.success('Saved!', {
           position: 'top-right',
         });
+        setUpdatePreview(updatePreview+1);
       } else {
         toast.error('Unsuccessful attempt!', {
           position: 'top-right',

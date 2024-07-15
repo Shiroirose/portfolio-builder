@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { TwicInstall } from "@twicpics/components/react";
 import "@twicpics/components/style.css";
 import Provider from './Provider'
+import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         {/* <div data-theme="dark" className="h-full bg-zinc-950"> */}
-        <div data-theme="dark" className="h-full">
+        <div data-theme="dracula" className="h-full">
         <TwicInstall
         // domain is mandatory //prev written h-screen bs
         domain="https://sebonti.twic.pics"

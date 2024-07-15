@@ -1,56 +1,45 @@
-// "use client"
-// import React, { useContext,useState,useEffect } from 'react'
-// import UserInfo from './_components/UserInfo'
-// import ProjectList from './_components/ProjectList'
-// import { UserDetailContext } from '../_context/UserDetailContext'
-
-// function UserPage() {
-
-//   const {userDetail}=useContext(UserDetailContext)
-
-//   // console.log("userpage details", userDetail)
-//   //project section is there in this part
-//   return (
-//     <div className='p-3 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-5'>
-//       <div>
-//         {userDetail? <UserInfo userDetail={userDetail}/>: 
-//         <div>
-//           Loading user info
-//         </div>}
-//       </div>
-//       <div className='md:col-span-2'>
-//        {userDetail && userDetail?.project?(
-//         <ProjectList projectList={userDetail?.project} />
-//        ):(
-//         <div>No projects</div>
-//        )} 
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default UserPage
-
-"use client"
-import React, { useContext } from 'react';
+"use client";
+import React, { useContext, useEffect, useState } from 'react';
+import { useUser } from '@clerk/nextjs';
 import UserInfo from './_components/UserInfo';
 import ProjectList from './_components/ProjectList';
 import { UserDetailContext } from '../_context/UserDetailContext';
+import { db } from '../../utils';
+import { eq, asc } from 'drizzle-orm';
+import { project } from '../../utils/schema';
 
 function UserPage() {
+  // const { user } = useUser();
   const { userDetail } = useContext(UserDetailContext);
+  const [projectList, setProjectList] = useState([]);
+
+  useEffect(() => {
+    if (userDetail) {
+      console.log('USer details',userDetail)
+      GetProjectList();
+    }
+  }, [userDetail]);
+
+  const GetProjectList = async () => {
+    try {
+      const result = await db.select().from(project)
+        .where(eq(project.emailRef, userDetail.email))
+        .orderBy(asc(project.order)); 
+        console.log(result)
+      setProjectList(result);
+    } catch (error) {
+      console.error("Failed to fetch projects:", error);
+    }
+  };
 
   return (
     <div className='p-3 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-5'>
       <div>
-        {userDetail ? <UserInfo userDetail={userDetail} /> :
-          <div>
-            Loading user info
-          </div>}
+        {userDetail ? <UserInfo userDetail={userDetail} /> : <div>Loading user info</div>}
       </div>
       <div className='md:col-span-2'>
-        {userDetail && userDetail?.project ? (
-          <ProjectList projectList={userDetail?.project} />
+        {projectList.length > 0 ? (
+          <ProjectList projectList={projectList} />
         ) : (
           <div>No projects</div>
         )}
@@ -60,4 +49,3 @@ function UserPage() {
 }
 
 export default UserPage;
-
