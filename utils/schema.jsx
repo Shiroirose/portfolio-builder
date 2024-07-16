@@ -12,7 +12,10 @@ export const userInfo=pgTable('userInfo',{
     location:varchar('location'),
     link:varchar('link'),
     profileImage:varchar('profileImage'),
-    theme:varchar('theme').default('light')
+    theme:varchar('theme').default('light'),
+    admintheme:varchar('admintheme').default('light'),
+    linkedin:varchar('linkedin'),
+    github:varchar('github')
 
 })
 

@@ -1,12 +1,10 @@
 "use client";
 import { TwicPicture } from "@twicpics/components/react";
-import { Link, Link2, MapPin, Share } from "lucide-react";
+import { Link, Link2, Linkedin, MapPin, Share } from "lucide-react";
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { FaGithub } from "react-icons/fa";
 
 function UserInfo({ userDetail }) {
-
   const handleShare = () => {
     const shareableLink = `http://localhost:3000/${userDetail.name}`;
     navigator.clipboard.writeText(shareableLink).then(
@@ -18,7 +16,7 @@ function UserInfo({ userDetail }) {
       }
     );
   };
-  
+
   return (
     <div className="mt-2 flex flex-col md:justify-center md:h-screen">
       <div className="w-full flex items-center justify-between">
@@ -35,10 +33,31 @@ function UserInfo({ userDetail }) {
               <MapPin className="h-[15px] w-[15px]" />
               {userDetail?.location}
             </h2>
-            <h2 className="flex gap-2 text-gray-500 items-center">
+            <h2 className="flex gap-2 text-gray-500 text-xs md:text-sm items-center">
               <Link className="h-[12px] w-[12px]" />
               {userDetail?.link}
             </h2>
+            <div className="flex my-2 gap-3 items-center">
+                {userDetail.linkedin && (
+                  <a
+                    href={userDetail.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Linkedin className="h-[18px] w-[18px] text-[#0077B5]" />
+                  </a>
+                )}
+
+                {userDetail?.github && (
+                  <a
+                    href={userDetail.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaGithub className="h-[18px] w-[18px]" />
+                  </a>
+                )}
+            </div>
           </div>
         </div>
       </div>
@@ -53,7 +72,12 @@ function UserInfo({ userDetail }) {
       <h2 className="my-7 ml-2 text-gray-600">{userDetail?.bio}</h2>
       <label className="input input-bordered flex items-center gap-2">
         Email
-        <input type="text" className="grow" placeholder="u@site.com" />
+        <input
+          type="text"
+          className="grow"
+          placeholder="u@site.com"
+          defaultValue={userDetail.email}
+        />
       </label>
     </div>
   );

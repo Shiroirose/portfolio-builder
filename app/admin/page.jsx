@@ -8,21 +8,20 @@ import {db} from '../../utils/index'
 import { useRouter } from 'next/navigation'
 import FormContent from './_components/FormContent'
 import MobilePreview from './_components/MobilePreview'
+import { useContext } from 'react'
+import {ShepherdTourContext} from 'react-shepherd'
 
 function Admin() {
 
     const {user}=useUser();
     const router=useRouter();
-
+    // const tour = useContext(ShepherdTourContext);
     useEffect(()=>{
         user&&CheckUser();
     },[user])
 
     const CheckUser= async()=>{
-        // const email = user?.primaryEmailAddress?.emailAddress
-
         const result= await db.select().from(userInfo).where(eq(userInfo.email,user?.primaryEmailAddress?.emailAddress))
-        // console.log('Result:',result);
         if(result?.length==0)
             {
                 router.replace('/create')
@@ -34,6 +33,12 @@ function Admin() {
     <div className='p-5'>
       <div className='grid grid-cols-1 lg:grid-cols-3'>
         <div className='col-span-2'>
+        {/* <button 
+          className="welcome-button btn btn-primary mt-8"
+          // onClick={() => tour.start()}
+        > */}
+          {/* Start Tour */}
+        {/* </button> */}
           <FormContent/>
         </div>
          <div>

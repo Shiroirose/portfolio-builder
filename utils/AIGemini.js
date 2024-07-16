@@ -1,4 +1,4 @@
-const {
+ const {
     GoogleGenerativeAI,
     HarmCategory,
     HarmBlockThreshold,
@@ -22,4 +22,6 @@ const {
     export const chatSession = model.startChat({
       generationConfig,
     });
+
+    
   

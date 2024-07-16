@@ -29,9 +29,13 @@ function AddProject() {
         setOpenUrl(false);
         if(result){
             setLoading(false);
-            toast.success('Project Added Successfully !',{
-                position:'top-right'
-            })
+            toast.success(
+                <div className="flex items-center">
+                    <img src="/images/success.gif" alt="Success GIF" className="w-20 h-14" />
+                    <span>Project Added Successfully!</span>
+                </div>, 
+                { position: 'top-right' }
+            );
         }
         else{
             setLoading(false);
@@ -44,7 +48,7 @@ function AddProject() {
         <button className='btn btn-secondary w-full'
         onClick={()=>setOpenUrl(true)}>Add Your Project</button>
         :
-        <form onSubmit={handleSubmit} className='p-3 rounded-lg bg-gray-800' >
+        <form onSubmit={handleSubmit} className='p-3 rounded-lg bg-secondary bg-opacity-30' >
             <label className="input input-bordered flex items-center gap-2 my-3">
                 <Link2/>
                 <input type='url' className='grow' placeholder='Project link' />

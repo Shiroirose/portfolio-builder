@@ -26,7 +26,7 @@ module.exports = {
       "fantasy",
       "wireframe",
       "black",
-      "luxury",
+      // "luxury",
       "dracula",
       "cmyk",
       "autumn",

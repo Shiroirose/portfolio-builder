@@ -1,9 +1,12 @@
+"use client"
 import { UserButton } from '@clerk/nextjs'
 import { BarChart4, Brush, Layers3, Settings } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import React, { useContext } from 'react'
+import { UserDetailContext } from '../../_context/UserDetailContext'
 
 function SideNav() {
+    const {userDetail}=useContext(UserDetailContext);
     const menuList=[
     {
         id:1,
@@ -31,7 +34,7 @@ function SideNav() {
     }
 ]
   return (
-    <div className='p-4 bg-black h-screen'>
+    <div data-theme={userDetail.admintheme} className='p-4 bg-black h-screen'>
         <div className=' px-4 py-2'>
             <UserButton/>
         </div>

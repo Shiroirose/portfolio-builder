@@ -1,16 +1,18 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {PreviewUpdateContext} from '../_context/PreviewUpdateContext'
+import { UserDetailContext } from '../_context/UserDetailContext';
 
 
 function Provider({children}) {
 
+    const {userDetail}=useContext(UserDetailContext)
     const [updatePreview,setUpdatePreview]=useState(0);
 
   return (
     <PreviewUpdateContext.Provider value={{updatePreview,setUpdatePreview}}>
-      <div>{children}</div>
+      <div data-theme={userDetail.admintheme}>{children}</div>
     </PreviewUpdateContext.Provider>
   )
 }

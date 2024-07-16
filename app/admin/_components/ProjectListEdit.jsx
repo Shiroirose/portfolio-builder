@@ -1,6 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import { TwicPicture } from "@twicpics/components/react";
-import { Book, Briefcase, Brush, Code, Cpu, GripVertical, Layers2, Layers3, LineChart, Link2, LoaderCircle, PenTool, ShoppingCart, Smartphone, Sparkle, Sparkles, Trash2, Users } from "lucide-react";
+import {
+  Book,
+  Briefcase,
+  Brush,
+  Code,
+  Cpu,
+  GripVertical,
+  Layers2,
+  Layers3,
+  LineChart,
+  Link2,
+  LoaderCircle,
+  PenTool,
+  ShoppingCart,
+  Smartphone,
+  Sparkle,
+  Sparkles,
+  Trash2,
+  Users,
+} from "lucide-react";
 import { db } from "../../../utils";
 import { project } from "../../../utils/schema";
 import { eq } from "drizzle-orm";
@@ -12,8 +31,6 @@ import { chatSession } from "../../../utils/AIGemini";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { PreviewUpdateContext } from "../../_context/PreviewUpdateContext";
 
-
-
 function ProjectListEdit({ projectList, refreshData }) {
   const [selected, setSelected] = useState();
   const [openDialog, setOpenDialog] = useState(false);
@@ -22,14 +39,13 @@ function ProjectListEdit({ projectList, refreshData }) {
   const [aiOutput, setAiOutput] = useState([]);
   const [showAiDesc, setShowAiDesc] = useState(false);
   const [projectListData, setProjectListData] = useState([]);
-  const {updatePreview,setUpdatePreview}=useContext(PreviewUpdateContext);
-
+  const { updatePreview, setUpdatePreview } = useContext(PreviewUpdateContext);
 
   let timeoutId;
 
-  useEffect(()=>{
-    projectList&&setProjectListData(projectList);
-  },[projectList])
+  useEffect(() => {
+    projectList && setProjectListData(projectList);
+  }, [projectList]);
 
   const onInputchange = (value, fieldName, projectId) => {
     clearTimeout(timeoutId);
@@ -44,7 +60,7 @@ function ProjectListEdit({ projectList, refreshData }) {
         toast.success("Reload to see saved changes!", {
           position: "top-right",
         });
-        setUpdatePreview(updatePreview+1);
+        setUpdatePreview(updatePreview + 1);
       } else if (!result) {
         toast.error("Unsuccessful attempt!", {
           position: "top-right",
@@ -76,7 +92,7 @@ function ProjectListEdit({ projectList, refreshData }) {
         toast.success("Image Saved!", {
           position: "top-right",
         });
-        setUpdatePreview(updatePreview+1);
+        setUpdatePreview(updatePreview + 1);
       } else {
         toast.error("Unsuccessful attempt!", {
           position: "top-right",
@@ -113,7 +129,7 @@ function ProjectListEdit({ projectList, refreshData }) {
         toast.success("Deleted :)", {
           position: "top-right",
         });
-        setUpdatePreview(updatePreview+1);
+        setUpdatePreview(updatePreview + 1);
       }
     });
   };
@@ -122,12 +138,14 @@ function ProjectListEdit({ projectList, refreshData }) {
     setLoading(true);
     event.preventDefault();
     const InputPrompt = aiInput;
-
+    console.log(InputPrompt);
+    
     try {
       const result = await chatSession.sendMessage(InputPrompt);
       const responseText = await result.response.text();
       const jsonResponse = JSON.parse(responseText);
-      console.log(jsonResponse);
+      console.log("AI Response", jsonResponse);
+      // console.log(result.response.text)
 
       if (Array.isArray(jsonResponse)) {
         setAiOutput(jsonResponse);
@@ -145,6 +163,7 @@ function ProjectListEdit({ projectList, refreshData }) {
       } else {
         console.warn("Unsupported AI response format:", jsonResponse);
       }
+      // console.log("Output", aiOutput);
       // setShowAiDesc(true);
     } catch (error) {
       console.error("AI generation error:", error);
@@ -160,7 +179,30 @@ function ProjectListEdit({ projectList, refreshData }) {
     setShowAiDesc(false);
   };
 
-  const handleOnDragEnd=async(result)=>{
+  const formatAIOutput = () => {
+      // return aiOutput
+      // .map((output, idx) => {
+      //   let text = "";
+      //   if (output.field) {
+      //     text += `${output.field.toUpperCase()}:\n`;
+      //   }
+      //   if (typeof output.value === "string") {
+      //     text += `${output.value}\n\n`;
+      //   } else if (Array.isArray(output.value)) {
+      //     text += output.value.map((item) => `- ${item}\n`).join("");
+      //     text += "\n";
+      //   } else if (typeof output.value === "object") {
+      //     text += Object.keys(output.value)
+      //       .map((key) => `${key.toUpperCase()}: ${output.value[key]}\n`)
+      //       .join("");
+      //     text += "\n";
+      //   }
+      //   return text;
+      // })
+      // .join("");
+  };
+
+  const handleOnDragEnd = async (result) => {
     if (!result.destination) {
       return;
     }
@@ -174,42 +216,44 @@ function ProjectListEdit({ projectList, refreshData }) {
     try {
       // Update the order of all items in the database
       const updatePromises = items.map((item, index) => {
-        return db.update(project)
+        return db
+          .update(project)
           .set({ order: index })
           .where(eq(project.id, item.id));
       });
-  
+
       await Promise.all(updatePromises);
       refreshData();
       toast.success("Order updated :)", {
         position: "top-right",
       });
-      setUpdatePreview(updatePreview+1);
-      } catch (error) {
-        console.error("Order update failed", error);
-        toast.error("Order update failed :(", {
-          position: "top-right",
-        });
-      }
+      setUpdatePreview(updatePreview + 1);
+    } catch (error) {
+      console.error("Order update failed", error);
+      toast.error("Order update failed :(", {
+        position: "top-right",
+      });
     }
-
-  
+  };
 
   return (
     <div className="mt-8">
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="droppable">
-          {(provided)=>(
-            <div ref={provided.innerRef} {...provided.droppableProps} >
+          {(provided) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
               {projectListData.map((project, index) => (
-                <Draggable key={project.id} draggableId={project.id.toString()} index={index}>
-                  {(provided)=>(
-                    <div 
+                <Draggable
+                  key={project.id}
+                  draggableId={project.id.toString()}
+                  index={index}
+                >
+                  {(provided) => (
+                    <div
                       ref={provided.innerRef}
-                      {...provided.draggableProps} 
-                      className="my-5 bg-gray-800 p-3 rounded-lg"
-                     >
-                      
+                      {...provided.draggableProps}
+                      className="my-5 bg-primary bg-opacity-50 p-3 rounded-lg"
+                    >
                       <div className="flex flex-col w-full">
                         <div className="flex items-center gap-2 ">
                           <label
@@ -225,7 +269,9 @@ function ProjectListEdit({ projectList, refreshData }) {
                             type="file"
                             id={"project-file-input" + index}
                             style={{ display: "none" }}
-                            onChange={(event) => onFileChange(event, project.id)}
+                            onChange={(event) =>
+                              onFileChange(event, project.id)
+                            }
                             accept="image/png , image/gif , image/jpeg"
                           />
                           <input
@@ -234,7 +280,11 @@ function ProjectListEdit({ projectList, refreshData }) {
                             defaultValue={project.name}
                             className="input input-bordered w-full "
                             onChange={(event) =>
-                              onInputchange(event.target.value, "name", project.id)
+                              onInputchange(
+                                event.target.value,
+                                "name",
+                                project.id
+                              )
                             }
                           />
                         </div>
@@ -244,41 +294,49 @@ function ProjectListEdit({ projectList, refreshData }) {
                             className="textarea textarea-bordered w-full mt-3 text-sm"
                             defaultValue={project.desc}
                             onChange={(event) =>
-                              onInputchange(event.target.value, "desc", project.id)
+                              onInputchange(
+                                event.target.value,
+                                "desc",
+                                project.id
+                              )
                             }
                           />
                         </div>
-            
+
                         <div>
                           <div className="flex gap-2 mt-4 items-center justify-between">
                             <div className="flex gap-2 mt-4 items-center">
-                            <div {...provided.dragHandleProps}>
-                              <GripVertical className="text-blue-50" />
-                            </div>
+                              <div {...provided.dragHandleProps}>
+                                <GripVertical className="text-blue-50" />
+                              </div>
                               <Link2
-                                className={` h-11 w-11 p-3 rounded-md hover:bg-gray-700 text-primary
+                                className={` h-11 w-11 p-3 rounded-md hover:bg-white hover:bg-opacity-30
                           ${selected == "url" && `bg-gray-700`}`}
                                 onClick={() => setSelected("url" + index)}
                               />
                               <Layers2
-                                className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700 text-green-400
+                                className={` h-12 w-12 p-3 rounded-md hover:bg-white hover:bg-opacity-30 text-green-400
                           ${selected == "category" && `bg-gray-700`}`}
                                 onClick={() => setSelected("category" + index)}
                               />
                               <LineChart
-                                className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700 text-yellow-100
+                                className={` h-12 w-12 p-3 rounded-md hover:bg-white hover:bg-opacity-30 text-yellow-100
                           ${selected == "linechart" && `bg-gray-700`}`}
                                 onClick={() => setSelected("linechart" + index)}
                               />
                               <button
                                 className="btn btn-ghost"
-                                onClick={() => setOpenDialog(true)}
+                                // onClick={() => setOpenDialog(true)}
+                                onClick={() => {
+                                  setOpenDialog(true);
+                                  setSelected("ai" + index);
+                                }}
                               >
                                 AI
                                 <Sparkles className="text-yellow-300" />
                               </button>
                             </div>
-            
+
                             <div className="flex gap-3 items-center">
                               <button
                                 className="btn btn-error btn-sm"
@@ -291,12 +349,16 @@ function ProjectListEdit({ projectList, refreshData }) {
                                 className="toggle toggle-primary"
                                 defaultChecked={project.active}
                                 onChange={(event) =>
-                                  onInputchange(event.target.checked, "active", project.id)
+                                  onInputchange(
+                                    event.target.checked,
+                                    "active",
+                                    project.id
+                                  )
                                 }
                               />
                             </div>
                           </div>
-            
+
                           {selected == "url" + index ? (
                             <div className="mt-2">
                               <label className="input input-bordered flex items-center gap-2">
@@ -308,95 +370,162 @@ function ProjectListEdit({ projectList, refreshData }) {
                                   key={1}
                                   defaultValue={project?.url}
                                   onChange={(event) =>
-                                    onInputchange(event.target.value, "url", project.id)
+                                    onInputchange(
+                                      event.target.value,
+                                      "url",
+                                      project.id
+                                    )
                                   }
                                 />
                               </label>
                             </div>
                           ) : selected == "category" + index ? (
                             <div className="mt-2">
-                                <select className="select select-bordered rounded-lg w-full " 
-                                    onChange={(event) =>
-                                    onInputchange(event.target.value, "category", project.id)}
-                                    key={2}
-                                    defaultValue={project?.category ? project?.category : ""} >
-                                  <option disabled selected>Choose category of project </option>
-                                  <option> <Book className="mr-2" /> Education </option>
-                                  <option> <Cpu className="mr-2" /> Technology </option>
-                                  <option> <Smartphone className="mr-2" /> Mobile App </option>
-                                  <option> <Code className="mr-2" /> Software </option>
-                                  <option> <Briefcase className="mr-2" /> Services </option>
-                                  <option> <PenTool className="mr-2" /> Design </option>
-                                  <option> <Brush className="mr-2" /> Art </option>
-                                  <option> <ShoppingCart className="mr-2" /> ECommerce </option>
-                                  <option> <Users className="mr-2" /> Social </option>
-                                  <option> <Layers3 className="mr-2" /> Miscellaneous </option>
-                                </select>
+                              <select
+                                className="select select-bordered rounded-lg w-full "
+                                onChange={(event) =>
+                                  onInputchange(
+                                    event.target.value,
+                                    "category",
+                                    project.id
+                                  )
+                                }
+                                key={2}
+                                defaultValue={
+                                  project?.category ? project?.category : ""
+                                }
+                              >
+                                <option disabled selected>
+                                  Choose category of project{" "}
+                                </option>
+                                <option>
+                                  {" "}
+                                  <Book className="mr-2" /> Education{" "}
+                                </option>
+                                <option>
+                                  {" "}
+                                  <Cpu className="mr-2" /> Technology{" "}
+                                </option>
+                                <option>
+                                  {" "}
+                                  <Smartphone className="mr-2" /> Mobile App{" "}
+                                </option>
+                                <option>
+                                  {" "}
+                                  <Code className="mr-2" /> Software{" "}
+                                </option>
+                                <option>
+                                  {" "}
+                                  <Briefcase className="mr-2" /> Services{" "}
+                                </option>
+                                <option>
+                                  {" "}
+                                  <PenTool className="mr-2" /> Design{" "}
+                                </option>
+                                <option>
+                                  {" "}
+                                  <Brush className="mr-2" /> Art{" "}
+                                </option>
+                                <option>
+                                  {" "}
+                                  <ShoppingCart className="mr-2" /> ECommerce{" "}
+                                </option>
+                                <option>
+                                  {" "}
+                                  <Users className="mr-2" /> Social{" "}
+                                </option>
+                                <option>
+                                  {" "}
+                                  <Layers3 className="mr-2" /> Miscellaneous{" "}
+                                </option>
+                              </select>
                             </div>
-                          ) : selected=='linechart'+index? (
-                          <div className="mt-2 flex items-center justify-between border p-4 rounded-lg">
-                            <label>Visitors' Graph</label>
-                            <input
-                              type="checkbox"
-                              className="toggle toggle-secondary "
-                              defaultChecked={project?.showGraph}
-                              onChange={(event) =>
-                              onInputchange(event.target.checked, "showGraph", project.id)
-                              }
-                            />
-                          </div>) :null}
-            
+                          ) : selected == "linechart" + index ? (
+                            <div className="mt-2 flex items-center justify-between border p-4 rounded-lg">
+                              <label>Visitors' Graph</label>
+                              <input
+                                type="checkbox"
+                                className="toggle toggle-secondary "
+                                defaultChecked={project?.showGraph}
+                                onChange={(event) =>
+                                  onInputchange(
+                                    event.target.checked,
+                                    "showGraph",
+                                    project.id
+                                  )
+                                }
+                              />
+                            </div>
+                          ) : null}
+
                           {openDialog && (
-                            <dialog className="modal  bg-black bg-opacity-50" open>
-                              <div className="modal-box bg-gray-800">
-                                <button
-                                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 "
-                                  onClick={handleCloseModal}
-                                >
-                                  ✕
-                                </button>
-                                <textarea
-                                  className="textarea textarea-bordered w-full"
-                                  placeholder="Write a bit about your project (eg:tech stack, what it's about)"
-                                  onChange={(event) => setAiInput(event.target.value)}
-                                ></textarea>
-                                <div>
-                                  <button
-                                    className="btn btn-xs btn-primary sm:btn-sm md:btn-md lg:btn-lg text-center text-white my-4 w-full "
-                                    onClick={(event) => submitAI(event, project.id)}
-                                    disabled={loading}
+                                  <dialog
+                                    className="modal  bg-black bg-opacity-30"
+                                    open
                                   >
-                                    {loading ? (
-                                      <>
-                                        <LoaderCircle className="animate-spin" />
-                                        Generating from AI
-                                      </>
-                                    ) : (
-                                      "Generate"
-                                    )}
-                                    <Sparkles className="text-yellow-300"/>
-                                  </button>
-                                </div>
-                                {/* {showAiDesc && (
-                                  <textarea className="textarea textarea-bordered w-full mt-3" value={aiOutput} readOnly />
-                                )} */}
-                                {showAiDesc && (
-                                  <textarea
-                                    className="textarea textarea-bordered w-full mt-3"
-                                    value={aiOutput.map(
-                                      (output, idx) =>
-                                        `${output.field.toUpperCase()}:\n${
-                                          Array.isArray(output.value)
-                                            ? output.value.join("\n")
-                                            : output.value
-                                        }\n\n`
-                                    )}
-                                    readOnly
-                                  />
+                                    <div className="modal-box bg-gray-700 ">
+                                      <button
+                                        className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 "
+                                        onClick={handleCloseModal}
+                                      >
+                                        ✕
+                                      </button>
+                                      <textarea
+                                        className="textarea textarea-bordered w-full"
+                                        placeholder="Write a bit about your project (eg:tech stack, what it's about)"
+                                        onChange={(event) =>
+                                          setAiInput(event.target.value)
+                                        }
+                                      ></textarea>
+                                      <div>
+                                        <button
+                                          className="btn btn-xs btn-primary  sm:btn-sm md:btn-md lg:btn-lg text-center text-white my-4 w-full "
+                                          onClick={(event) =>
+                                            submitAI(event, project.id)
+                                          }
+                                          disabled={loading}
+                                        >
+                                          {loading ? (
+                                            <>
+                                              <LoaderCircle className="animate-spin" />
+                                              Generating from AI
+                                            </>
+                                          ) : (
+                                            "Generate"
+                                          )}
+                                          <Sparkles className="text-yellow-300" />
+                                        </button>
+                                      </div>
+                                      {showAiDesc && (
+                                        <textarea
+                                          className="textarea textarea-bordered w-full mt-3"
+                                          value={aiOutput
+                                            .map((output, idx) => {
+                                              let text = "";
+                                              if (output.field) {
+                                                text += `${output.field.toUpperCase()}:\n`;
+                                              }
+                                              if (typeof output.value === "string") {
+                                                text += `${output.value}\n\n`;
+                                              } else if (Array.isArray(output.value)) {
+                                                text += output.value.map((item) => `- ${item}\n`).join("");
+                                                text += "\n";
+                                              } else if (typeof output.value === "object") {
+                                                text += Object.keys(output.value)
+                                                  .map((key) => `${key.toUpperCase()}: ${output.value[key]}\n`)
+                                                  .join("");
+                                                text += "\n";
+                                              }
+                                              return text;
+                                            })
+                                            .join("")}
+                                          readOnly
+                                        />
+                                        
+                                      )}
+                                    </div>
+                                  </dialog>
                                 )}
-                              </div>
-                            </dialog>
-                          )}
                         </div>
                       </div>
                     </div>
@@ -411,5 +540,4 @@ function ProjectListEdit({ projectList, refreshData }) {
     </div>
   );
 }
-
-export default ProjectListEdit;  
+export default ProjectListEdit;

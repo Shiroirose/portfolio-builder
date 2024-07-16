@@ -150,7 +150,7 @@ function ProjectList({projectList}) {
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 gap-7 my-8'>
         {projectList?.filter(project => project.active)?.map((project,index)=>(
-            <div onClick={()=>OnProjectClick(project)} key={project.id} className='border shadow-sm rounded-lg p-7 hover:scale-[0.9] duration-300 cursor-pointer  hover:shadow-md'>
+            <div onClick={()=>OnProjectClick(project)} key={project.id} className='border border-primary shadow-sm rounded-lg p-7 hover:scale-[0.9] duration-300 cursor-pointer  hover:shadow-md'>
                 <div className='flex gap-2 items-center'>
                     <TwicPicture src={project?.logo}className='h-[40px] w-[40px] rounded-full'/>
                     <h2 className='font-bold  w-full flex justify-between items-center mt-2'>{project?.name}

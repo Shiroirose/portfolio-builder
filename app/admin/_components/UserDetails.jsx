@@ -1,5 +1,6 @@
 "use client"
-import { Camera, Link2, MapPin } from 'lucide-react'
+import { Camera, Link2, Linkedin, MapPin } from 'lucide-react'
+import { FaGithub } from "react-icons/fa";
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { db } from '../../../utils';
 import { userInfo } from '../../../utils/schema';
@@ -13,7 +14,6 @@ import { TwicPicture } from '@twicpics/components/react';
 import { PreviewUpdateContext } from '../../_context/PreviewUpdateContext';
 
 
-// const BASE_URL='https://firebasestorage.googleapis.com/v0/b/portfolio-builder-1510.appspot.com/o/'
 function UserDetails() {
 
   const {user}=useUser();
@@ -122,7 +122,7 @@ function UserDetails() {
 
 
   return (
-    <div ref={containerRef} className='bg-gray-800 rounded-lg p-9 mt-3'>
+    <div ref={containerRef} className='bg-primary bg-opacity-50 rounded-lg p-9 mt-3'>
       <div className='flex gap-2'>
         {profileImage? (
         <label htmlFor='file-input' className='cursor-pointer'>
@@ -166,6 +166,15 @@ function UserDetails() {
             ${selected=='link' && `bg-gray-700`}`} 
             onClick={()=>setSelected('link')}
             />
+            <Linkedin className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700
+            text-[#0077B5] 
+            ${selected=='linkedin' && `bg-gray-700`}`} 
+            onClick={()=>setSelected('linkedin')}
+            /> 
+            <FaGithub className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700
+            ${selected=='github' && `bg-gray-700`}`} 
+            onClick={()=>setSelected('github')}
+            />
           </div>
 
           {selected=='location'? 
@@ -183,10 +192,30 @@ function UserDetails() {
           <div className='mt-2'> 
           <label className='input input-bordered flex items-center gap-2'>
             <Link2/>
-            <input type='url' className='grow' placeholder='Link to any other account( eg: LinkedIn,GitHub)' 
+            <input type='url' className='grow' placeholder='Link to portfolio/account' 
             key={2}
             defaultValue={userDetail?.link}
             onChange={(event)=>onInputchange(event,'link')}
+            />
+          </label>
+        </div>:selected=='linkedin'?
+          <div className='mt-2'> 
+          <label className='input input-bordered flex items-center gap-2'>
+            <Linkedin/>
+            <input type='url' className='grow' placeholder='Link to any GitHub account' 
+            key={3}
+            defaultValue={userDetail?.linkedin}
+            onChange={(event)=>onInputchange(event,'linkedin')}
+            />
+          </label>
+        </div>:selected=='github'?
+          <div className='mt-2'> 
+          <label className='input input-bordered flex items-center gap-2'>
+            <FaGithub/>
+            <input type='url' className='grow' placeholder='Link to any GitHub account' 
+            key={4}
+            defaultValue={userDetail?.github}
+            onChange={(event)=>onInputchange(event,'github')}
             />
           </label>
         </div>:null}

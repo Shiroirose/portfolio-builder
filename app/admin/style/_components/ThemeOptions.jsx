@@ -34,7 +34,7 @@ function ThemeOptions() {
 
   return (
     <div>
-        <h2 className='font-bold text-2xl text-blue-50 py-8'>Select the Theme you want to display !</h2>
+        <h2 className='font-bold text-2xl py-8'>Select the Theme you want to display on your Page !</h2>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
             {Themes.map((theme,index)=>(
                 <div className={`flex p-3 bg-gray-900 rounded-lg  hover:scale-[0.9] duration-300 cursor-pointer tooltip tooltip-top
