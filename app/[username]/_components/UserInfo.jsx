@@ -33,7 +33,7 @@ function UserInfo({ userDetail }) {
               <MapPin className="h-[15px] w-[15px]" />
               {userDetail?.location}
             </h2>
-            <h2 className="flex gap-2 text-gray-500 text-xs md:text-sm items-center">
+            <h2 className="flex gap-2 text-gray-500 text-xs md:text-sm items-center my-1">
               <Link className="h-[12px] w-[12px]" />
               {userDetail?.link}
             </h2>

@@ -54,7 +54,7 @@ function CreateUserName() {
         }
     }
   return (
-    <div className='flex items-center justify-center h-screen' >
+    <div className="flex items-center justify-center h-screen bg-black bg-[url('/images/stars.gif')]">
         <div className=' p-5 md:p-10 border rounded-lg flex flex-col'>
             <h2 className='font-bold text-xl md:text-2xl py-5 text-center'>Create username for portfolio</h2>
             <input type="text" placeholder="Type username here" value={username} onChange={handleInputChange} className="input input-bordered py-2 w-full" />

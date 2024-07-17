@@ -34,7 +34,7 @@ function SideNav() {
     }
 ]
   return (
-    <div data-theme={userDetail.admintheme} className='p-4 bg-black h-screen'>
+    <div data-theme={userDetail?.admintheme || "dark"} className='p-4 bg-black h-screen'>
         <div className=' px-4 py-2'>
             <UserButton/>
         </div>

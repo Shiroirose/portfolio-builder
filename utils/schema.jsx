@@ -12,8 +12,8 @@ export const userInfo=pgTable('userInfo',{
     location:varchar('location'),
     link:varchar('link'),
     profileImage:varchar('profileImage'),
-    theme:varchar('theme').default('light'),
-    admintheme:varchar('admintheme').default('light'),
+    theme:varchar('theme').default('dark'),
+    admintheme:varchar('admintheme').default('dark'),
     linkedin:varchar('linkedin'),
     github:varchar('github')
 

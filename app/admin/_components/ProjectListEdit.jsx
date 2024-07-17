@@ -237,7 +237,7 @@ function ProjectListEdit({ projectList, refreshData }) {
   };
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 ">
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="droppable">
           {(provided) => (

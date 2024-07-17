@@ -8,14 +8,11 @@ import {db} from '../../utils/index'
 import { useRouter } from 'next/navigation'
 import FormContent from './_components/FormContent'
 import MobilePreview from './_components/MobilePreview'
-import { useContext } from 'react'
-import {ShepherdTourContext} from 'react-shepherd'
 
 function Admin() {
 
     const {user}=useUser();
     const router=useRouter();
-    // const tour = useContext(ShepherdTourContext);
     useEffect(()=>{
         user&&CheckUser();
     },[user])
@@ -32,13 +29,7 @@ function Admin() {
   return (
     <div className='p-5'>
       <div className='grid grid-cols-1 lg:grid-cols-3'>
-        <div className='col-span-2'>
-        {/* <button 
-          className="welcome-button btn btn-primary mt-8"
-          // onClick={() => tour.start()}
-        > */}
-          {/* Start Tour */}
-        {/* </button> */}
+        <div className='col-span-2 h-full'>
           <FormContent/>
         </div>
          <div>
