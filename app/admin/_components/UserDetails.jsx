@@ -73,7 +73,6 @@ function UserDetails() {
 
 
   if(!userDetail){
-    // return <div>Loading...</div>
     return <span className="loading loading-spinner loading-md"></span>
   }
 

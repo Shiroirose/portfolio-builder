@@ -57,7 +57,6 @@ function CreateUserName() {
     <div className='flex items-center justify-center h-screen' >
         <div className=' p-5 md:p-10 border rounded-lg flex flex-col'>
             <h2 className='font-bold text-xl md:text-2xl py-5 text-center'>Create username for portfolio</h2>
-            {/* <label  py-2>Your Username</label> */}
             <input type="text" placeholder="Type username here" value={username} onChange={handleInputChange} className="input input-bordered py-2 w-full" />
             <button disabled={!username} onClick={()=>OnCreateBtnClick()} className='btn btn-primary mt-3'>Create</button>
         </div>

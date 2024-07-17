@@ -139,7 +139,7 @@ function ProjectListEdit({ projectList, refreshData }) {
     event.preventDefault();
     const InputPrompt = aiInput;
     console.log(InputPrompt);
-    
+
     try {
       const result = await chatSession.sendMessage(InputPrompt);
       const responseText = await result.response.text();
@@ -180,26 +180,26 @@ function ProjectListEdit({ projectList, refreshData }) {
   };
 
   const formatAIOutput = () => {
-      // return aiOutput
-      // .map((output, idx) => {
-      //   let text = "";
-      //   if (output.field) {
-      //     text += `${output.field.toUpperCase()}:\n`;
-      //   }
-      //   if (typeof output.value === "string") {
-      //     text += `${output.value}\n\n`;
-      //   } else if (Array.isArray(output.value)) {
-      //     text += output.value.map((item) => `- ${item}\n`).join("");
-      //     text += "\n";
-      //   } else if (typeof output.value === "object") {
-      //     text += Object.keys(output.value)
-      //       .map((key) => `${key.toUpperCase()}: ${output.value[key]}\n`)
-      //       .join("");
-      //     text += "\n";
-      //   }
-      //   return text;
-      // })
-      // .join("");
+    // return aiOutput
+    // .map((output, idx) => {
+    //   let text = "";
+    //   if (output.field) {
+    //     text += `${output.field.toUpperCase()}:\n`;
+    //   }
+    //   if (typeof output.value === "string") {
+    //     text += `${output.value}\n\n`;
+    //   } else if (Array.isArray(output.value)) {
+    //     text += output.value.map((item) => `- ${item}\n`).join("");
+    //     text += "\n";
+    //   } else if (typeof output.value === "object") {
+    //     text += Object.keys(output.value)
+    //       .map((key) => `${key.toUpperCase()}: ${output.value[key]}\n`)
+    //       .join("");
+    //     text += "\n";
+    //   }
+    //   return text;
+    // })
+    // .join("");
   };
 
   const handleOnDragEnd = async (result) => {
@@ -306,24 +306,47 @@ function ProjectListEdit({ projectList, refreshData }) {
                         <div>
                           <div className="flex gap-2 mt-4 items-center justify-between">
                             <div className="flex gap-2 mt-4 items-center">
-                              <div {...provided.dragHandleProps}>
+                              <div
+                                {...provided.dragHandleProps}
+                                className="tooltip tooltip-top"
+                                data-tip="Drag"
+                              >
                                 <GripVertical className="text-blue-50" />
                               </div>
-                              <Link2
-                                className={` h-11 w-11 p-3 rounded-md hover:bg-white hover:bg-opacity-30
-                          ${selected == "url" && `bg-gray-700`}`}
-                                onClick={() => setSelected("url" + index)}
-                              />
-                              <Layers2
-                                className={` h-12 w-12 p-3 rounded-md hover:bg-white hover:bg-opacity-30 text-green-400
-                          ${selected == "category" && `bg-gray-700`}`}
-                                onClick={() => setSelected("category" + index)}
-                              />
-                              <LineChart
-                                className={` h-12 w-12 p-3 rounded-md hover:bg-white hover:bg-opacity-30 text-yellow-100
-                          ${selected == "linechart" && `bg-gray-700`}`}
-                                onClick={() => setSelected("linechart" + index)}
-                              />
+                              <div
+                                className="tooltip tooltip-top "
+                                data-tip="Link"
+                              >
+                                <Link2
+                                  className={` h-11 w-11 p-3 rounded-md hover:bg-white hover:bg-opacity-30 
+                                  ${selected == "url" && `bg-gray-700`} `}
+                                  onClick={() => setSelected("url" + index)}
+                                />
+                              </div>
+                              <div
+                                className="tooltip tooltip-top"
+                                data-tip="Category"
+                              >
+                                <Layers2
+                                  className={` h-12 w-12 p-3 rounded-md hover:bg-white hover:bg-opacity-30 text-green-400
+                                  ${selected == "category" && `bg-gray-700`}`}
+                                  onClick={() =>
+                                    setSelected("category" + index)
+                                  }
+                                />
+                              </div>
+                              <div
+                                className="tooltip tooltip-top"
+                                data-tip="Stats"
+                              >
+                                <LineChart
+                                  className={` h-12 w-12 p-3 rounded-md hover:bg-white hover:bg-opacity-30 text-yellow-100
+                                  ${selected == "linechart" && `bg-gray-700`}`}
+                                  onClick={() =>
+                                    setSelected("linechart" + index)
+                                  }
+                                />
+                              </div>
                               <button
                                 className="btn btn-ghost"
                                 // onClick={() => setOpenDialog(true)}
@@ -459,73 +482,83 @@ function ProjectListEdit({ projectList, refreshData }) {
                           ) : null}
 
                           {openDialog && (
-                                  <dialog
-                                    className="modal  bg-black bg-opacity-30"
-                                    open
+                            <dialog
+                              className="modal  bg-black bg-opacity-30"
+                              open
+                            >
+                              <div className="modal-box bg-gray-700 ">
+                                <button
+                                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 "
+                                  onClick={handleCloseModal}
+                                >
+                                  ✕
+                                </button>
+                                <textarea
+                                  className="textarea textarea-bordered w-full"
+                                  placeholder="Write a bit about your project (eg:tech stack, what it's about)"
+                                  onChange={(event) =>
+                                    setAiInput(event.target.value)
+                                  }
+                                ></textarea>
+                                <div>
+                                  <button
+                                    className="btn btn-xs btn-primary  sm:btn-sm md:btn-md lg:btn-lg text-center text-white my-4 w-full "
+                                    onClick={(event) =>
+                                      submitAI(event, project.id)
+                                    }
+                                    disabled={loading}
                                   >
-                                    <div className="modal-box bg-gray-700 ">
-                                      <button
-                                        className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 "
-                                        onClick={handleCloseModal}
-                                      >
-                                        ✕
-                                      </button>
-                                      <textarea
-                                        className="textarea textarea-bordered w-full"
-                                        placeholder="Write a bit about your project (eg:tech stack, what it's about)"
-                                        onChange={(event) =>
-                                          setAiInput(event.target.value)
+                                    {loading ? (
+                                      <>
+                                        <LoaderCircle className="animate-spin" />
+                                        Generating from AI
+                                      </>
+                                    ) : (
+                                      "Generate"
+                                    )}
+                                    <Sparkles className="text-yellow-300" />
+                                  </button>
+                                </div>
+                                {showAiDesc && (
+                                  <textarea
+                                    className="textarea textarea-bordered w-full mt-3"
+                                    value={aiOutput
+                                      .map((output, idx) => {
+                                        let text = "";
+                                        if (output.field) {
+                                          text += `${output.field.toUpperCase()}:\n`;
                                         }
-                                      ></textarea>
-                                      <div>
-                                        <button
-                                          className="btn btn-xs btn-primary  sm:btn-sm md:btn-md lg:btn-lg text-center text-white my-4 w-full "
-                                          onClick={(event) =>
-                                            submitAI(event, project.id)
-                                          }
-                                          disabled={loading}
-                                        >
-                                          {loading ? (
-                                            <>
-                                              <LoaderCircle className="animate-spin" />
-                                              Generating from AI
-                                            </>
-                                          ) : (
-                                            "Generate"
-                                          )}
-                                          <Sparkles className="text-yellow-300" />
-                                        </button>
-                                      </div>
-                                      {showAiDesc && (
-                                        <textarea
-                                          className="textarea textarea-bordered w-full mt-3"
-                                          value={aiOutput
-                                            .map((output, idx) => {
-                                              let text = "";
-                                              if (output.field) {
-                                                text += `${output.field.toUpperCase()}:\n`;
-                                              }
-                                              if (typeof output.value === "string") {
-                                                text += `${output.value}\n\n`;
-                                              } else if (Array.isArray(output.value)) {
-                                                text += output.value.map((item) => `- ${item}\n`).join("");
-                                                text += "\n";
-                                              } else if (typeof output.value === "object") {
-                                                text += Object.keys(output.value)
-                                                  .map((key) => `${key.toUpperCase()}: ${output.value[key]}\n`)
-                                                  .join("");
-                                                text += "\n";
-                                              }
-                                              return text;
-                                            })
-                                            .join("")}
-                                          readOnly
-                                        />
-                                        
-                                      )}
-                                    </div>
-                                  </dialog>
+                                        if (typeof output.value === "string") {
+                                          text += `${output.value}\n\n`;
+                                        } else if (
+                                          Array.isArray(output.value)
+                                        ) {
+                                          text += output.value
+                                            .map((item) => `- ${item}\n`)
+                                            .join("");
+                                          text += "\n";
+                                        } else if (
+                                          typeof output.value === "object"
+                                        ) {
+                                          text += Object.keys(output.value)
+                                            .map(
+                                              (key) =>
+                                                `${key.toUpperCase()}: ${
+                                                  output.value[key]
+                                                }\n`
+                                            )
+                                            .join("");
+                                          text += "\n";
+                                        }
+                                        return text;
+                                      })
+                                      .join("")}
+                                    readOnly
+                                  />
                                 )}
+                              </div>
+                            </dialog>
+                          )}
                         </div>
                       </div>
                     </div>
