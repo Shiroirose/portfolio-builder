@@ -31,9 +31,8 @@ function UserPage() {
       console.error("Failed to fetch projects:", error);
     }
   };
-
   return (
-    <div className='p-3 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-5'>
+    <div className='p-3 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-5 bg-[url("/images/stars.gif")]'>
       <div>
         {userDetail ? <UserInfo userDetail={userDetail} /> : <div>Loading user info</div>}
       </div>

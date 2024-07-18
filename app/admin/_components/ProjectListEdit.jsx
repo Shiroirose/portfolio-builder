@@ -369,7 +369,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                               </button>
                               <input
                                 type="checkbox"
-                                className="toggle toggle-primary"
+                                className="toggle toggle-primary tooltip tooltip-top" data-tip="Display Project"
                                 defaultChecked={project.active}
                                 onChange={(event) =>
                                   onInputchange(
@@ -521,7 +521,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                                 </div>
                                 {showAiDesc && (
                                   <textarea
-                                    className="textarea textarea-bordered w-full mt-3"
+                                    className="textarea textarea-bordered w-full mt-3 min-h-[200px] "
                                     value={aiOutput
                                       .map((output, idx) => {
                                         let text = "";
