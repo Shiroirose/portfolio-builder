@@ -5,7 +5,7 @@ export default function SignInPage() {
     <div className="flex flex-col md:flex-row h-screen bg-black" >
       <div className="relative flex items-center justify-center  text-white  bg-black w-full md:w-1/2 p-4 my-5 bg-[url('/images/stars.gif')]" >
         <div className="text-center z-10">
-          <h1 className="text-4xl font-bold my-3 text-amber-300">CraftFolio</h1>
+          <h1 className="text-4xl font-bold my-3 text-amber-300">Craftify</h1>
           <h2 className="text-2xl font-bold">where you</h2>
           <div className="flex gap-2">
             <h2 className="text-2xl font-bold text-yellow-300">

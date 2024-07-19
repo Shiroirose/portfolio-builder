@@ -3,8 +3,9 @@ import { TwicPicture } from "@twicpics/components/react";
 import { Link, Link2, Linkedin, MapPin, Share } from "lucide-react";
 import React from "react";
 import { FaGithub } from "react-icons/fa";
-
+import GitHubCalendar from "react-github-calendar";
 function UserInfo({ userDetail }) {
+
   const handleShare = () => {
     const shareableLink = `http://localhost:3000/${userDetail.name}`;
     navigator.clipboard.writeText(shareableLink).then(
@@ -16,9 +17,16 @@ function UserInfo({ userDetail }) {
       }
     );
   };
+  const getGithubUsername = (url) => {
+    const regex = /(?:https?:\/\/)?(?:www\.)?github\.com\/([a-zA-Z0-9-]+)\/?/;
+    const match = url?.match(regex);
+    return match ? match[1] : null;
+  };
+
+  const githubUsername = getGithubUsername(userDetail?.github);
 
   return (
-    <div className="mt-2 flex flex-col md:justify-center md:h-screen">
+    <div className="mt-2 flex flex-col md:justify-center md:h-full">
       <div className="w-full flex items-center justify-between">
         <div className="flex md:flex-col items-center md:items-start gap-4">
           <TwicPicture
@@ -79,6 +87,12 @@ function UserInfo({ userDetail }) {
           defaultValue={userDetail.email}
         />
       </label>
+      <div className="my-5">
+
+      {userDetail?.showcontri && (
+        <GitHubCalendar username={githubUsername}/>
+      )}
+      </div>
     </div>
   );
 }

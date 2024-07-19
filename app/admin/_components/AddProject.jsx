@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 function AddProject() {
     const [openUrl,setOpenUrl]=useState(false); 
     const {user}=useUser();
-    const {userDetail,setUserDetail}=useContext(UserDetailContext);
+    const {userDetail}=useContext(UserDetailContext);
     const [loading,setLoading]=useState(false);
 
 
@@ -56,6 +56,7 @@ function AddProject() {
                 <button type='submit' disabled={loading} className='btn btn-secondary w-full mt-2'>Add project</button>
         </form>
         }
+
     </div>
   )
 }

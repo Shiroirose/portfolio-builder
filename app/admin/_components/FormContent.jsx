@@ -7,6 +7,7 @@ import { project } from '../../../utils/schema'
 import { asc, eq } from 'drizzle-orm'
 import { useUser } from '@clerk/nextjs'
 import ProjectListEdit from './ProjectListEdit'
+import GithubContribution from './GithubContribution'
 
 function FormContent() {
   
@@ -34,7 +35,9 @@ function FormContent() {
       <h2 className=' text-2xl font-semibold '>Design Your Portfolio !</h2>
       <UserDetails/>
       <hr className='my-5'></hr>
-      <AddProject/>
+      <GithubContribution/>
+      <hr className='my-5'></hr>
+      <AddProject />
       <ProjectListEdit projectList={projectList} refreshData={GetProjectList}/>
     </div>
   )

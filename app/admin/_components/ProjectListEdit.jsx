@@ -30,6 +30,7 @@ import Swal from "sweetalert2";
 import { chatSession } from "../../../utils/AIGemini";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { PreviewUpdateContext } from "../../_context/PreviewUpdateContext";
+import { ProjectClicks } from "../../../utils/schema";
 
 function ProjectListEdit({ projectList, refreshData }) {
   const [selected, setSelected] = useState();
@@ -117,6 +118,7 @@ function ProjectListEdit({ projectList, refreshData }) {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
+        const result2= await db.delete(ProjectClicks).where(eq(ProjectClicks.projectRef, projectId));
         const result = await db
           .delete(project)
           .where(eq(project.id, projectId));
@@ -423,15 +425,15 @@ function ProjectListEdit({ projectList, refreshData }) {
                                 </option>
                                 <option>
                                   {" "}
-                                  <Book className="mr-2" /> Education{" "}
+                                  <Book className="mr-2" /> Fullstack{" "}
                                 </option>
                                 <option>
                                   {" "}
-                                  <Cpu className="mr-2" /> Technology{" "}
+                                  <Cpu className="mr-2" /> Frontend{" "}
                                 </option>
                                 <option>
                                   {" "}
-                                  <Smartphone className="mr-2" /> Mobile App{" "}
+                                  <Smartphone className="mr-2" /> Backend{" "}
                                 </option>
                                 <option>
                                   {" "}
@@ -439,15 +441,15 @@ function ProjectListEdit({ projectList, refreshData }) {
                                 </option>
                                 <option>
                                   {" "}
-                                  <Briefcase className="mr-2" /> Services{" "}
+                                  <Briefcase className="mr-2" /> Technology{" "}
                                 </option>
                                 <option>
                                   {" "}
-                                  <PenTool className="mr-2" /> Design{" "}
+                                  <PenTool className="mr-2" /> AI/ML{" "}
                                 </option>
                                 <option>
                                   {" "}
-                                  <Brush className="mr-2" /> Art{" "}
+                                  <Brush className="mr-2" /> AI/DL{" "}
                                 </option>
                                 <option>
                                   {" "}
@@ -455,11 +457,11 @@ function ProjectListEdit({ projectList, refreshData }) {
                                 </option>
                                 <option>
                                   {" "}
-                                  <Users className="mr-2" /> Social{" "}
+                                  <Users className="mr-2" /> Education{" "}
                                 </option>
                                 <option>
                                   {" "}
-                                  <Layers3 className="mr-2" /> Miscellaneous{" "}
+                                  <Layers3 className="mr-2" />Mobile App {" "}
                                 </option>
                               </select>
                             </div>
