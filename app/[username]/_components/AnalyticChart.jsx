@@ -4,6 +4,7 @@ import CustomTooltip from "./CustomTooltip"
 function AnalyticChart({data}) {
 
   return (
+
     <div>
         <ResponsiveContainer width={'100%'} height={100}>
             <AreaChart

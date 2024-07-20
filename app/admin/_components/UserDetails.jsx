@@ -67,7 +67,7 @@ function UserDetails() {
   };
 
   if (!userDetail) {
-    return <span className="loading loading-spinner loading-md"></span>;
+    return <span className="loading loading-spinner loading-md">Reload</span>;
   }
 
   const onFileChange = async (event) => {

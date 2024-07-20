@@ -10,10 +10,10 @@ import React from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "CraftFolio",
+  title: "Craftify",
   description: "Way to Craft your Portfolio",
   icons: {
-    icon: "/image/icon.png",
+    icon: "/images/logo.png",
   },
 };
 

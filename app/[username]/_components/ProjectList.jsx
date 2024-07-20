@@ -133,9 +133,11 @@ function ProjectList({ projectList }) {
                   </button>
                 )}
               </h2>
+              <div className="">
               {project?.showGraph && (
                 <AnalyticChart data={GetProjectwiseAnalyticData(project.id)} />
               )}
+              </div>
             </div>
           );
         })}

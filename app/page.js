@@ -16,7 +16,7 @@ export default function Home() {
     }
   };
   return (
-    <div className="h-screen" data-theme={userDetail?.admintheme}>
+    <div className="h-screen bg-[url('/images/stars.gif')]" data-theme={userDetail?.admintheme}>
       <div className="">
         <Image
           src="/images/PYh.gif"
@@ -28,7 +28,7 @@ export default function Home() {
       </div>
       <div className="flex flex-col items-center justify-center">
         <h2 className=" text-4xl md:text-5xl lg:text-6xl font-bold border border-primary p-16 rounded-lg">
-          Welcome to CraftFolio!
+          Welcome to Craftify!
         </h2>
       </div>
       <div className="flex justify-end py-20 mr-4">
