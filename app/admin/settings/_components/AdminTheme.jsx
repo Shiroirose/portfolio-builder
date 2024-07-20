@@ -92,7 +92,7 @@ function AdminTheme() {
 
     return (
         <div>
-            <h2 className='font-bold text-2xl py-8'>Select your theme for the website !</h2>
+            <h2 className='font-bold text-2xl py-8'>Select your Theme for the website !</h2>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
                 {Themes.map((theme, index) => (
                     <div key={index}

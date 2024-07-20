@@ -7,13 +7,14 @@ import { useContext } from 'react';
 import { db } from '../../../utils';
 import { project } from '../../../utils/schema';
 import { toast } from 'react-toastify';
+import { PreviewUpdateContext } from '../../_context/PreviewUpdateContext';
 
 function AddProject() {
     const [openUrl,setOpenUrl]=useState(false); 
     const {user}=useUser();
     const {userDetail}=useContext(UserDetailContext);
     const [loading,setLoading]=useState(false);
-
+    const { updatePreview, setUpdatePreview } = useContext(PreviewUpdateContext);
 
     const handleSubmit=async(e)=>{
         e.preventDefault();
@@ -36,6 +37,7 @@ function AddProject() {
                 </div>, 
                 { position: 'top-right' }
             );
+            setUpdatePreview(updatePreview+1);
         }
         else{
             setLoading(false);

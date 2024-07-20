@@ -37,7 +37,7 @@ function UserPage() {
   };
   return (
     <div>
-      <div className='p-3 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-5 bg-[url("/images/stars.gif")]'>
+      <div className='p-3 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-5 bg-[url("/images/stars.gif")] h-screen overflow-y-auto'>
         <div>
           {userDetail ? (
             <UserInfo userDetail={userDetail} />

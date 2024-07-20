@@ -4,10 +4,11 @@ import { Link, Link2, Linkedin, MapPin, Share } from "lucide-react";
 import React from "react";
 import { FaGithub } from "react-icons/fa";
 import GitHubCalendar from "react-github-calendar";
+
 function UserInfo({ userDetail }) {
 
   const handleShare = () => {
-    const shareableLink = `http://localhost:3000/${userDetail.name}`;
+    const shareableLink = `${process.env.NEXT_PUBLIC_BASE_URL}/${userDetail.name}`;
     navigator.clipboard.writeText(shareableLink).then(
       () => {
         alert("Link copied to clipboard: " + shareableLink);

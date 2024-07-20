@@ -69,7 +69,7 @@ function ProjectList({ projectList }) {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-7 my-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-7 my-8 ">
       {projectList
         ?.filter((project) => project.active)
         ?.map((project, index) => {
