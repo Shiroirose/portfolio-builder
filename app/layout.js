@@ -7,6 +7,7 @@ import { TwicInstall } from "@twicpics/components/react";
 import "@twicpics/components/style.css";
 import Provider from "./Provider";
 import React from "react";
+import Tour from './Tour'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -24,8 +25,11 @@ export default function RootLayout({ children }) {
         <body className={inter.className}>
           <div data-theme="dark" className="h-screen">
             <TwicInstall domain="https://sebonti.twic.pics" />
-            <Provider>{children}</Provider>
+            <Provider>
+              {children}
+              </Provider>
             <ToastContainer />
+            {/* <Tour/> */}
           </div>
         </body>
       </html>

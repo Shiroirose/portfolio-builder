@@ -54,6 +54,7 @@ function GithubContribution() {
     <div>
       <button
         className="btn btn-secondary w-full"
+        id={`git-activity`}
         onClick={toggleGithubActivity}
       >
         {showGitActivity ? "Hide GitHub Activity" : "Show GitHub Activity"}

@@ -261,6 +261,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                           <label
                             htmlFor={"project-file-input" + index}
                             className="cursor-pointer"
+                            id={`project-pic`}
                           >
                             <TwicPicture
                               src={`${project.logo}`}
@@ -279,6 +280,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                           <input
                             type="text"
                             placeholder="Project Name"
+                            id={`project-name`}
                             defaultValue={project.name}
                             className="input input-bordered w-full "
                             onChange={(event) =>
@@ -294,6 +296,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                           <textarea
                             placeholder="Describe your project"
                             className="textarea textarea-bordered w-full mt-3 text-sm"
+                            id={`project-desc`}
                             defaultValue={project.desc}
                             onChange={(event) =>
                               onInputchange(
@@ -306,23 +309,25 @@ function ProjectListEdit({ projectList, refreshData }) {
                         </div>
 
                         <div>
-                          <div className="flex gap-2 mt-4 items-center justify-between">
+                          <div className="flex gap-2 mt-4 items-center justify-between overflow-x-auto md:overflow-x-hidden">
                             <div className="flex gap-2 mt-4 items-center">
                               <div
                                 {...provided.dragHandleProps}
                                 className="tooltip tooltip-top"
                                 data-tip="Drag"
+                                
                               >
-                                <GripVertical className="text-blue-50" />
+                                <GripVertical className="text-blue-50" id={`project-drag`}/>
                               </div>
                               <div
                                 className="tooltip tooltip-top "
                                 data-tip="Link"
                               >
                                 <Link2
-                                  className={` h-11 w-11 p-3 rounded-md hover:bg-white hover:bg-opacity-30 
+                                  className={`h-11 w-11 p-3 rounded-md hover:bg-white hover:bg-opacity-30 
                                   ${selected == "url" && `bg-gray-700`} `}
                                   onClick={() => setSelected("url" + index)}
+                                  id={`project-link`}
                                 />
                               </div>
                               <div
@@ -330,11 +335,12 @@ function ProjectListEdit({ projectList, refreshData }) {
                                 data-tip="Category"
                               >
                                 <Layers2
-                                  className={` h-12 w-12 p-3 rounded-md hover:bg-white hover:bg-opacity-30 text-green-400
+                                  className={`h-12 w-12 p-3 rounded-md hover:bg-white hover:bg-opacity-30 text-green-400
                                   ${selected == "category" && `bg-gray-700`}`}
                                   onClick={() =>
                                     setSelected("category" + index)
                                   }
+                                  id={`project-category`}
                                 />
                               </div>
                               <div
@@ -342,20 +348,22 @@ function ProjectListEdit({ projectList, refreshData }) {
                                 data-tip="Stats"
                               >
                                 <LineChart
-                                  className={` h-12 w-12 p-3 rounded-md hover:bg-white hover:bg-opacity-30 text-yellow-100
+                                  className={`h-12 w-12 p-3 rounded-md hover:bg-white hover:bg-opacity-30 text-yellow-100
                                   ${selected == "linechart" && `bg-gray-700`}`}
                                   onClick={() =>
                                     setSelected("linechart" + index)
                                   }
+                                  id={`project-stats`}
                                 />
                               </div>
                               <button
-                                className="btn btn-ghost"
+                                className="btn btn-ghost btn-md"
                                 // onClick={() => setOpenDialog(true)}
                                 onClick={() => {
                                   setOpenDialog(true);
                                   setSelected("ai" + index);
                                 }}
+                                id={`project-ai`}
                               >
                                 AI
                                 <Sparkles className="text-yellow-300" />
@@ -366,6 +374,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                               <button
                                 className="btn btn-error btn-sm"
                                 onClick={() => onProjectDelete(project.id)}
+                                id={`project-delete`}
                               >
                                 <Trash2 />
                               </button>
@@ -380,6 +389,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                                     project.id
                                   )
                                 }
+                                id={`project-display`}
                               />
                             </div>
                           </div>

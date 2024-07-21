@@ -4,6 +4,7 @@
 import React from 'react'
 import SideNav from './_components/SideNav'
 import Provider from './Provider'
+import Tour from '../Tour'
 
 function Adminlayout({children}) {
   return (
@@ -17,6 +18,7 @@ function Adminlayout({children}) {
             {children}
           </Provider>
         </div>
+        <Tour/>
     </div>
   )
 }

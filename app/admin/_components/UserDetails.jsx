@@ -114,11 +114,12 @@ function UserDetails() {
   return (
     <div
       ref={containerRef}
-      className="bg-primary bg-opacity-50 rounded-lg p-9 mt-3"
+      id={`user-detail`}
+      className="bg-primary bg-opacity-50 rounded-lg p-9 md:p-6 mt-3 "
     >
       <div className="flex gap-2">
         {profileImage ? (
-          <label htmlFor="file-input" className="cursor-pointer">
+          <label htmlFor="file-input" className="cursor-pointer" id={`camera-icon`}>
             <TwicPicture
               src={`${profileImage}`}
               className="h-[40px] w-[40px] rounded-full"
@@ -126,11 +127,12 @@ function UserDetails() {
           </label>
         ) : (
           <div>
-            <label>
+            <label >
               <Camera
+                
                 className="rounded-full p-2 h-12 w-12 bg-gray-700 cursor-pointer"
                 onClick={onCameraClick}
-              />
+                />
             </label>
           </div>
         )}
@@ -145,6 +147,7 @@ function UserDetails() {
         <input
           type="text"
           placeholder="Your Full Name ?"
+          id={`user-name`}
           defaultValue={userDetail?.name}
           onChange={(event) => onInputchange(event, "name")}
           className="input input-bordered w-full placeholder-opacity-40"
@@ -154,6 +157,7 @@ function UserDetails() {
       <textarea
         className="textarea textarea-bordered w-full mt-3"
         placeholder="Write about yourself"
+        id={`user-bio`}
         defaultValue={userDetail?.bio}
         onChange={(event) => onInputchange(event, "bio")}
         data-fdprocessedid={null}
@@ -166,6 +170,7 @@ function UserDetails() {
             data-tip="Location"
           >
             <MapPin
+            id="location-icon"
               className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700
             text-blue-500 
             ${selected == "location" && `bg-gray-700`}`}
@@ -177,6 +182,7 @@ function UserDetails() {
             data-tip="Link"
           >
             <Link2
+            id="link-icon"
               className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700
             text-yellow-500 
             ${selected == "link" && `bg-gray-700`}`}
@@ -188,6 +194,7 @@ function UserDetails() {
             data-tip="LinkedIn"
           >
             <Linkedin
+            id="linkedin-icon"
               className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700
             text-[#0077B5] 
             ${selected == "linkedin" && `bg-gray-700`}`}
@@ -199,6 +206,7 @@ function UserDetails() {
             data-tip="GitHub link to show activity"
           >
             <FaGithub
+            id="github-icon"
               className={` h-12 w-12 p-3 rounded-md hover:bg-gray-700 
             ${selected == "github" && `bg-gray-700`}`}
               onClick={() => setSelected("github")}

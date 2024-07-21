@@ -16,7 +16,8 @@ export const userInfo=pgTable('userInfo',{
     admintheme:varchar('admintheme').default('dark'),
     linkedin:varchar('linkedin'),
     github:varchar('github'),
-    showcontri:boolean('showcontri').default(true)
+    showcontri:boolean('showcontri').default(true),
+    showtour:boolean("showtour").default(false)
 
 })
 

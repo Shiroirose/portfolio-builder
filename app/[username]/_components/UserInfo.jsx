@@ -74,12 +74,13 @@ function UserInfo({ userDetail }) {
         <button
           className="btn btn-primary btn-xs md:btn-sm flex justify-center w-full my-5"
           onClick={handleShare}
+          
         >
-          <Share className="h-4 w-4" />
+          <Share className="h-4 w-4"  />
         </button>
       </div>
       <h2 className="my-7 ml-2 text-gray-600">{userDetail?.bio}</h2>
-      <label className="input input-bordered flex items-center gap-2">
+      <label className="input input-bordered flex items-center gap-2 overflow-x-auto">
         Email
         <input
           type="text"

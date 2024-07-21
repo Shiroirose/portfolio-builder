@@ -48,6 +48,7 @@ function AddProject() {
     <div>
         {!openUrl?
         <button className='btn btn-secondary w-full'
+        id={`add-project-button`}
         onClick={()=>setOpenUrl(true)}>Add Your Project</button>
         :
         <form onSubmit={handleSubmit} className='p-3 rounded-lg bg-secondary bg-opacity-30' >

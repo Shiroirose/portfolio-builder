@@ -117,8 +117,8 @@ function ProjectList({ projectList }) {
                   </div>
                 </h2>
               </div>
-              <h2 className="text-base-content/80 text-xs lg:text-sm my-2 " style={{
-                  maxHeight: isExpanded ? "none" : "3.6em", 
+              <h2 className="text-base-content/80 text-xs lg:text-sm my-2  " style={{
+                  maxHeight: isExpanded ? "none" : "3.7em", 
                   overflow: "hidden",
                 }}>
                 <span className="whitespace-pre-wrap" style={{overflowWrap:"break word",flex:"1 1 auto"}}>

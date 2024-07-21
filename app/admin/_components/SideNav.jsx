@@ -34,12 +34,12 @@ function SideNav() {
     }
 ]
   return (
-    <div data-theme={userDetail?.admintheme || "dark"} className='p-4 bg-black h-screen'>
+    <div data-theme={userDetail?.admintheme || "dark"} className='p-4 bg-black h-screen '>
         <div className=' px-4 py-2'>
             <UserButton/>
         </div>
         {menuList.map((menu,index)=>(
-            <Link href={menu.path} className='p-2 py-4 rounded-lg bg-primary mb-4 flex items-center justify-center hover:scale-[0.9] duration-300 tooltip tooltip-secondary tooltip-right ' data-tip={menu.name}>
+            <Link href={menu.path} className='p-2 py-4 rounded-lg bg-primary mb-4 flex items-center justify-center hover:scale-[0.9] duration-300 tooltip tooltip-secondary tooltip-right ' data-tip={menu.name} id={`menu-${menu.name}`}>
                 <menu.icon className='text-white text-center'/>
             </Link>
         ))}
