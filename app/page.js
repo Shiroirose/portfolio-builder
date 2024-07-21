@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useContext } from "react";
 import { UserDetailContext } from "./_context/UserDetailContext";
 import { useRouter } from "next/navigation";
-
+import { Search, ArrowUpRight, MousePointer } from "lucide-react";
 export default function Home() {
   const { userDetail } = useContext(UserDetailContext);
   const router = useRouter();
@@ -17,7 +17,6 @@ export default function Home() {
   };
   return (
     <div className="h-screen bg-[url('/images/stars.gif')]" data-theme={userDetail?.admintheme}>
-      <div className="">
         <Image
           src="/images/PYh.gif"
           alt="Welcome Gif"
@@ -25,11 +24,26 @@ export default function Home() {
           height={300}
           className="item-start rounded-lg"
         />
-      </div>
       <div className="flex flex-col items-center justify-center">
-        <h2 className=" text-4xl md:text-5xl lg:text-6xl font-bold border border-primary p-16 rounded-lg">
-          Welcome to Craftify!
-        </h2>
+      <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold border border-primary p-8 rounded-lg text-center">
+           Welcome to Craftify!
+         </h2>
+         {/* <p className="mt-4 text-xl md:text-2xl lg:text-3xl text-center font-semibold text-gray-300">
+          Crafting your ideas into reality
+        </p> */}
+        <div className="relative flex flex-col items-center my-4 w-full">
+          <label className="input input-bordered flex items-center gap-2 w-full max-w-md">
+            <Search/>
+            <input
+            type="text"
+            placeholder="Build a Portfolio"
+            disabled
+            className="text-xl"/>
+          </label>
+          {/* <div className="flex justify-center "> */}
+          <MousePointer className="w-10 h-10 absolute top-8 "/>
+          {/* </div> */}
+        </div>
       </div>
       <div className="flex justify-end py-20 mr-4">
         <button className="btn btn-primary " onClick={handleClick}>
@@ -39,3 +53,8 @@ export default function Home() {
     </div>
   );
 }
+
+
+
+
+
