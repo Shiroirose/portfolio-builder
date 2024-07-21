@@ -8,7 +8,7 @@ import GitHubCalendar from "react-github-calendar";
 function UserInfo({ userDetail }) {
 
   const handleShare = () => {
-    const shareableLink = `${process.env.NEXT_PUBLIC_BASE_URL}/${userDetail.name}`;
+    const shareableLink = `https://craftify-pied.vercel.app/${userDetail.name}`;
     navigator.clipboard.writeText(shareableLink).then(
       () => {
         alert("Link copied to clipboard: " + shareableLink);
