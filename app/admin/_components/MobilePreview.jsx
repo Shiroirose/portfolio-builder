@@ -17,7 +17,8 @@ function MobilePreview() {
           <iframe
             title='Profile'
             key={updatePreview}
-            src={process.env.NEXT_PUBLIC_BASE_URL+`/${linkName}`}
+            // src={process.env.NEXT_PUBLIC_BASE_URL+`/${linkName}`}
+            src={`https://craftify-pied.vercel.app/${linkName}`}
             width='100%'
             height='100%'
             className='rounded-[25px]'

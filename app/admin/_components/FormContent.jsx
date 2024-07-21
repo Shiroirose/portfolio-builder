@@ -35,8 +35,8 @@ function FormContent() {
   }
   console.log('Name',(userDetail?.name))
   const siteName=userDetail?.name || "testuser"
-  // const url=  `http://localhost:3000/${encodeURIComponent(userDetail.name)}`
-  const url=  `${process.env.NEXT_PUBLIC_BASE_URL}/${encodeURIComponent(siteName)}`
+  const url=  `https://craftify-pied.vercel.app/${encodeURIComponent(siteName)}`
+  // const url=  `${process.env.NEXT_PUBLIC_BASE_URL}/${encodeURIComponent(siteName)}`
   const linkToPortfolio=()=>{
     router.push(url)
   }
