@@ -313,14 +313,14 @@ function ProjectListEdit({ projectList, refreshData }) {
                             <div className="flex gap-2 mt-4 items-center">
                               <div
                                 {...provided.dragHandleProps}
-                                className="tooltip tooltip-top"
+                                className="tooltip tooltip-right"
                                 data-tip="Drag"
                                 
                               >
                                 <GripVertical className="text-blue-50" id={`project-drag`}/>
                               </div>
                               <div
-                                className="tooltip tooltip-top "
+                                className="tooltip tooltip-right "
                                 data-tip="Link"
                               >
                                 <Link2
@@ -331,7 +331,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                                 />
                               </div>
                               <div
-                                className="tooltip tooltip-top"
+                                className="tooltip tooltip-right"
                                 data-tip="Category"
                               >
                                 <Layers2
@@ -344,7 +344,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                                 />
                               </div>
                               <div
-                                className="tooltip tooltip-top"
+                                className="tooltip tooltip-right"
                                 data-tip="Stats"
                               >
                                 <LineChart
@@ -380,7 +380,7 @@ function ProjectListEdit({ projectList, refreshData }) {
                               </button>
                               <input
                                 type="checkbox"
-                                className="toggle toggle-primary tooltip tooltip-top" data-tip="Display Project"
+                                className="toggle toggle-primary tooltip tooltip-left" data-tip="Display"
                                 defaultChecked={project.active}
                                 onChange={(event) =>
                                   onInputchange(
