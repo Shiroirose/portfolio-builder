@@ -12,7 +12,7 @@ function MobilePreview() {
   console.log('user name',userDetail.name)
   const linkName = userDetail?.name || "testuser";
   return (
-    <div className='p-2 md:p-5 '>
+    <div className='p-1 md:p-5 '>
         <div className='border-[13px] min-w-[320px] max-w-[360px] max-h-[650px] rounded-[40px]  border-black h-screen m-1 shadow-md shadow-primary'>
           <iframe
             title='Profile'

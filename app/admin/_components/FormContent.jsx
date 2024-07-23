@@ -75,7 +75,7 @@ function FormContent() {
         <h2 className=' md:text-2xl font-semibold '>Design Your </h2>
         <h2 className=' md:text-2xl font-semibold text-secondary'>Portfolio</h2>
       </div>
-      <div className='flex gap-2'>
+      <div className='flex flex-col sm:flex-row gap-2'>
         <button className='btn btn-sm md:btn-md btn-primary' onClick={handlestarttour}>{show ? "Stop Tour" : "Start Tour"}</button>
         <button className='btn btn-sm md:btn-md btn-primary' onClick={linkToPortfolio}>View Portfolio</button>
       </div>

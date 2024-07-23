@@ -27,12 +27,12 @@ function Admin() {
 
 
   return (
-    <div className='p-5  '>
+    <div className='p-1 md:p-5  '>
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
         <div className='col-span-1 lg:col-span-2 h-full '>
           <FormContent/>
         </div>
-         <div className='h-full'>
+         <div className='h-full mx-auto '>
           <MobilePreview/>
         </div>
       </div>

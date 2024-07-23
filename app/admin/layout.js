@@ -9,7 +9,7 @@ import Tour from '../Tour'
 function Adminlayout({children}) {
   return (
     <div>
-        <div className='w-24 fixed'>
+        <div className='w-24 fixed '>
         <SideNav/>
         </div>
 
